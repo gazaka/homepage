@@ -35,18 +35,12 @@ searchForm.addEventListener('submit', handleSearch);
 const searchQueryInput = document.getElementById('search-query');
 const suggestionsContainer = document.getElementById('suggestions-container');
 
-// NEW: A "state" variable to track which suggestion is highlighted
-let activeSuggestionIndex = -1;
-
 async function getSuggestions() {
     const query = searchQueryInput.value.trim();
     if (query === '') {
         suggestionsContainer.innerHTML = '';
         return;
     }
-
-    // NEW: Reset the active index whenever the user types a new character
-    activeSuggestionIndex = -1;
 
     try {
         const response = await fetch(`http://localhost:3000/suggestions?q=${encodeURIComponent(query)}`);
@@ -57,10 +51,26 @@ async function getSuggestions() {
             const item = document.createElement('div');
             item.className = 'suggestion-item';
             item.textContent = suggestion.phrase;
+            
+            // --- THIS IS THE MODIFIED PART ---
+
+            // Listener for when the user clicks a suggestion
             item.addEventListener('click', () => {
                 searchQueryInput.value = suggestion.phrase;
                 searchForm.requestSubmit();
             });
+
+            // NEW: Listener for when the mouse enters a suggestion
+            item.addEventListener('mouseenter', () => {
+                // First, remove the active class from any other item
+                const currentActive = suggestionsContainer.querySelector('.suggestion-active');
+                if (currentActive) {
+                    currentActive.classList.remove('suggestion-active');
+                }
+                // Then, add the active class to this item
+                item.classList.add('suggestion-active');
+            });
+
             suggestionsContainer.appendChild(item);
         });
 
@@ -72,46 +82,51 @@ async function getSuggestions() {
 searchQueryInput.addEventListener('input', getSuggestions);
 
 
-// NEW: Event listener for keyboard navigation (ArrowUp, ArrowDown, Enter)
+// --- Keyboard Navigation Logic (No changes needed here) ---
 searchQueryInput.addEventListener('keydown', (e) => {
     const suggestions = suggestionsContainer.querySelectorAll('.suggestion-item');
     if (suggestions.length === 0) return;
 
-    // A variable to store the previously active item
-    let prevActiveSuggestion = suggestions[activeSuggestionIndex];
-
+    const currentActive = suggestionsContainer.querySelector('.suggestion-active');
+    
     switch (e.key) {
         case 'ArrowDown':
-            e.preventDefault(); // Stop cursor from moving in the input box
-            activeSuggestionIndex++;
-            if (activeSuggestionIndex >= suggestions.length) {
-                activeSuggestionIndex = 0; // Wrap around to the top
+            e.preventDefault();
+            if (currentActive) {
+                currentActive.classList.remove('suggestion-active');
+                let nextSibling = currentActive.nextElementSibling;
+                if (nextSibling) {
+                    nextSibling.classList.add('suggestion-active');
+                } else {
+                    suggestions[0].classList.add('suggestion-active');
+                }
+            } else {
+                suggestions[0].classList.add('suggestion-active');
             }
             break;
 
         case 'ArrowUp':
-            e.preventDefault(); // Stop cursor from moving in the input box
-            activeSuggestionIndex--;
-            if (activeSuggestionIndex < 0) {
-                activeSuggestionIndex = suggestions.length - 1; // Wrap around to the bottom
+            e.preventDefault();
+            if (currentActive) {
+                currentActive.classList.remove('suggestion-active');
+                let prevSibling = currentActive.previousElementSibling;
+                if (prevSibling) {
+                    prevSibling.classList.add('suggestion-active');
+                } else {
+                    suggestions[suggestions.length - 1].classList.add('suggestion-active');
+                }
+            } else {
+                suggestions[suggestions.length - 1].classList.add('suggestion-active');
             }
             break;
 
         case 'Enter':
-            if (activeSuggestionIndex > -1) {
-                e.preventDefault(); // Stop the form from submitting with the wrong text
-                suggestions[activeSuggestionIndex].click(); // Trigger the click event on the active item
+            if (currentActive) {
+                e.preventDefault();
+                currentActive.click();
             }
-            return; // Allow normal Enter submission if no suggestion is selected
+            break;
     }
-
-    // Remove highlight from the previous item if it exists
-    if (prevActiveSuggestion) {
-        prevActiveSuggestion.classList.remove('suggestion-active');
-    }
-
-    // Add highlight to the new active item
-    suggestions[activeSuggestionIndex].classList.add('suggestion-active');
 });
 
 

@@ -127,7 +127,6 @@ cite {
     transition: background-color 0.15s ease-in-out; /* Add transition */
 }
 
-.suggestion-item:hover,
 .suggestion-active {
     background-color: var(--accent-color);
     color: white;
