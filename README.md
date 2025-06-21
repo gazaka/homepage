@@ -1,6 +1,7 @@
 My Learning Homepage
 
 A personal dashboard project built from scratch to learn and apply core concepts of web development, containerization, and client-server architecture.
+
 ✨ Core Features
 
 The dashboard currently includes the following features:
