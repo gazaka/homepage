@@ -1,18 +1,28 @@
+/* Define the color palette and other theme variables at the root */
+:root {
+    --background-color: #1a1b1e; /* A softer, dark charcoal */
+    --widget-color: #242528;
+    --text-primary: #e1e1e6;
+    --text-secondary: #a0a0ab;
+    --accent-color: #007bff;
+    --border-color: #36373b;
+}
+
 /* Basic setup for good defaults */
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: #121212; /* A dark background */
-    color: #e0e0e0; /* A light grey text color */
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-primary);
     margin: 0;
-    padding: 1rem; /* Add some padding around the edges */
+    padding: 1rem;
     display: flex;
-    justify-content: center; /* Center the main container */
+    justify-content: center;
 }
 
 /* The main container for our content */
 .container {
     width: 100%;
-    max-width: 800px; /* On large screens, don't let it get too wide */
+    max-width: 800px;
 }
 
 header {
@@ -26,22 +36,24 @@ header h1 {
 
 header p {
     font-size: 1rem;
-    color: #a0a0a0;
+    color: var(--text-secondary);
 }
 
 /* Style for our widgets */
 .widget {
-    background-color: #1e1e1e; /* A slightly lighter dark shade */
-    border-radius: 8px;
+    background-color: var(--widget-color);
+    border-radius: 12px; /* A slightly more rounded corner */
     padding: 1.5rem;
     margin-bottom: 1rem;
+    border: 1px solid var(--border-color); /* A subtle border adds definition */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* A subtle shadow for depth */
 }
 
 blockquote {
     margin: 0;
     padding: 0;
     font-style: italic;
-    color: #b3b3b3;
+    color: var(--text-secondary);
 }
 
 cite {
@@ -66,10 +78,10 @@ cite {
     flex-grow: 1; /* Allow the input to take up available space */
     padding: 0.75rem;
     font-size: 1rem;
-    border: 1px solid #444;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
     background-color: #333;
-    color: #e0e0e0;
+    color: var(--text-primary);
 }
 
 #search-form button {
@@ -77,9 +89,21 @@ cite {
     font-size: 1rem;
     border: none;
     border-radius: 4px;
-    background-color: #007bff; /* A nice blue */
+    background-color: var(--accent-color);
     color: white;
     cursor: pointer;
+    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out; /* Add transition */
+}
+
+/* Add a subtle hover effect */
+#search-form button:hover {
+    background-color: #0069d9; /* A slightly darker blue */
+    transform: scale(1.05);
+}
+
+#search-form button i {
+    font-size: 1.2rem; /* Make the icon a bit bigger */
+    vertical-align: middle; /* Helps with alignment */
 }
 
 .search-options {
@@ -99,16 +123,12 @@ cite {
 .suggestion-item {
     padding: 0.75rem;
     cursor: pointer;
-    color: #e0e0e0;
+    color: var(--text-primary);
+    transition: background-color 0.15s ease-in-out; /* Add transition */
 }
 
-.suggestion-item:hover {
-    background-color: #007bff;
-    color: white;
-}
-
-/* Add this new class for keyboard navigation */
+.suggestion-item:hover,
 .suggestion-active {
-    background-color: #007bff;
+    background-color: var(--accent-color);
     color: white;
 }
