@@ -1,9 +1,7 @@
-# learning_homepage
-docker venture to the world of programming
 My Learning Homepage
 
 A personal dashboard project built from scratch to learn and apply core concepts of web development, containerization, and client-server architecture.
-Core Features
+✨ Core Features
 
 The dashboard currently includes the following features:
 
@@ -16,7 +14,7 @@ The dashboard currently includes the following features:
         Predictive Suggestions: As you type, a list of search suggestions appears in real-time.
         Full Keyboard Navigation: Users can use ArrowUp, ArrowDown, and Enter to select suggestions without using the mouse.
 
-Tech Stack
+🛠️ Tech Stack
 
 This project utilizes a multi-container Docker environment to simulate a real-world application architecture.
 
@@ -38,7 +36,7 @@ This project utilizes a multi-container Docker environment to simulate a real-wo
         Docker & Docker Compose for containerization and orchestration.
         Nginx as a lightweight, high-performance web server for the frontend.
 
-Project Structure
+📂 Project Structure
 
 The project is organized with a clean separation between the application source code (src) and the backend proxy server (proxy).
 
@@ -60,7 +58,7 @@ learning_homepage/
     └── js/
         └── main.js         # All JavaScript logic
 
-Getting Started
+🚀 Getting Started
 
 To run this project locally, you will need Git and Docker Desktop installed.
 
@@ -81,7 +79,7 @@ Bash
 
     Open the application: Navigate to http://localhost:8080 in your web browser.
 
-How It Works: Architecture
+⚙️ How It Works: Architecture
 
 The application runs in two separate containers managed by Docker Compose:
 
