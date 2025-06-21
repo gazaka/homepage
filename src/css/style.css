@@ -242,3 +242,14 @@ cite {
     text-align: right;
     margin-top: 0.5rem;
 }
+
+/* --- Error Message Styles --- */
+.widget-error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--text-secondary);
+    font-style: italic;
+    min-height: 50px; /* Give it some space */
+}
