@@ -2,7 +2,7 @@
 
 A personal, dynamic dashboard built from scratch to learn and apply core concepts of modern web development, containerization, and client-server architecture. The dashboard provides at-a-glance information and quick access to frequently used services.
 
-![Dashboard Screenshot](https://i.imgur.com/rL4e1aQ.png) <!-- You can replace this with a real screenshot of your dashboard later! -->
+![Dashboard Screenshot](https://github.com/gazaka/learning_homepage/blob/main/src/assets/images/dashboard-screeenshot.png) <!-- You can replace this with a real screenshot of your dashboard later! -->
 
 ## ✨ Core Features
 
