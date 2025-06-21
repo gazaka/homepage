@@ -25,48 +25,63 @@ body {
     max-width: 800px;
 }
 
-header {
-    text-align: center;
-    margin-bottom: 2rem;
+/* --- Smart Header Styles --- */
+.smart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    margin-bottom: 1rem;
 }
 
-header h1 {
-    margin: 0;
+#time-container {
+    text-align: left;
 }
 
-header p {
+#current-time {
+    font-size: 2.5rem;
+    font-weight: 500;
+    line-height: 1;
+}
+
+#current-date {
     font-size: 1rem;
     color: var(--text-secondary);
 }
 
+#weather-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-align: right;
+}
+
+#weather-icon {
+    width: 50px;
+    height: 50px;
+}
+
+#weather-temp {
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+
 /* Style for our widgets */
 .widget {
     background-color: var(--widget-color);
-    border-radius: 12px; /* A slightly more rounded corner */
+    border-radius: 12px;
     padding: 1.5rem;
     margin-bottom: 1rem;
-    border: 1px solid var(--border-color); /* A subtle border adds definition */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* A subtle shadow for depth */
-}
-
-blockquote {
-    margin: 0;
-    padding: 0;
-    font-style: italic;
-    color: var(--text-secondary);
-}
-
-cite {
-    display: block;
-    text-align: right;
-    margin-top: 0.5rem;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* --- Search Form Styles --- */
 #search-form {
     display: flex;
     flex-direction: column;
-    gap: 1rem; /* Space between the input and radio buttons */
+    gap: 1rem;
 }
 
 .search-input-group {
@@ -75,7 +90,7 @@ cite {
 }
 
 #search-query {
-    flex-grow: 1; /* Allow the input to take up available space */
+    flex-grow: 1;
     padding: 0.75rem;
     font-size: 1rem;
     border: 1px solid var(--border-color);
@@ -92,18 +107,17 @@ cite {
     background-color: var(--accent-color);
     color: white;
     cursor: pointer;
-    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out; /* Add transition */
+    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
 }
 
-/* Add a subtle hover effect */
 #search-form button:hover {
-    background-color: #0069d9; /* A slightly darker blue */
+    background-color: #0069d9;
     transform: scale(1.05);
 }
 
 #search-form button i {
-    font-size: 1.2rem; /* Make the icon a bit bigger */
-    vertical-align: middle; /* Helps with alignment */
+    font-size: 1.2rem;
+    vertical-align: middle;
 }
 
 .search-options {
@@ -116,18 +130,79 @@ cite {
 #suggestions-container {
     background-color: #333;
     border-radius: 4px;
-    margin-top: -0.5rem; /* Pull it up slightly to feel connected */
-    overflow: hidden; /* Ensures the rounded corners apply to children */
+    margin-top: -0.5rem;
+    overflow: hidden;
 }
 
 .suggestion-item {
     padding: 0.75rem;
     cursor: pointer;
     color: var(--text-primary);
-    transition: background-color 0.15s ease-in-out; /* Add transition */
+    transition: background-color 0.15s ease-in-out;
 }
 
 .suggestion-active {
     background-color: var(--accent-color);
     color: white;
+}
+
+
+/* --- Links Widget Styles --- */
+#links-widget h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+}
+
+.links-grid {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+}
+
+.links-grid a {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+}
+
+.links-grid a:hover {
+    background-color: #36373b;
+    border-color: var(--accent-color);
+}
+
+.links-grid a i {
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+}
+
+
+/* --- Quote Widget Styles --- */
+#quote-widget h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+}
+
+blockquote {
+    margin: 0;
+    padding: 0;
+    font-style: italic;
+    color: var(--text-secondary);
+}
+
+cite {
+    display: block;
+    text-align: right;
+    margin-top: 0.5rem;
 }

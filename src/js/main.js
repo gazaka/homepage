@@ -1,15 +1,51 @@
-// --- Clock Logic ---
+// --- Time and Date Logic ---
 const timeElement = document.getElementById('current-time');
-function updateTime() {
+const dateElement = document.getElementById('current-date');
+
+function updateTimeAndDate() {
     const now = new Date();
     const timeString = now.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' });
     timeElement.textContent = timeString;
+    const dateString = now.toLocaleDateString(navigator.language, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    dateElement.textContent = dateString;
 }
-updateTime();
-setInterval(updateTime, 1000);
+updateTimeAndDate();
+setInterval(updateTimeAndDate, 1000);
+
+
+// --- Weather Logic ---
+const weatherIconElement = document.getElementById('weather-icon');
+const weatherTempElement = document.getElementById('weather-temp');
+
+async function getWeather() {
+    const lat = 53.53;
+    const lon = -2.35;
+
+    try {
+        const response = await fetch(`http://localhost:3000/weather?lat=${lat}&lon=${lon}`);
+        
+        // NEW: Check if the response from our proxy was successful
+        if (!response.ok) {
+            // If not, throw an error to be caught by the catch block
+            throw new Error(`Server responded with ${response.status}`);
+        }
+
+        const data = await response.json();
+        
+        weatherTempElement.textContent = `${Math.round(data.main.temp)}°C`;
+        const iconCode = data.weather[0].icon;
+        weatherIconElement.src = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+        weatherIconElement.alt = data.weather[0].description;
+
+    } catch (error) {
+        console.error("Failed to fetch weather:", error);
+        weatherTempElement.textContent = "N/A";
+    }
+}
 
 
 // --- Universal Search Logic ---
+// ... (The rest of your main.js file from here is unchanged) ...
 const searchForm = document.getElementById('search-form');
 function handleSearch(event) {
     event.preventDefault();
@@ -52,22 +88,16 @@ async function getSuggestions() {
             item.className = 'suggestion-item';
             item.textContent = suggestion.phrase;
             
-            // --- THIS IS THE MODIFIED PART ---
-
-            // Listener for when the user clicks a suggestion
             item.addEventListener('click', () => {
                 searchQueryInput.value = suggestion.phrase;
                 searchForm.requestSubmit();
             });
 
-            // NEW: Listener for when the mouse enters a suggestion
             item.addEventListener('mouseenter', () => {
-                // First, remove the active class from any other item
                 const currentActive = suggestionsContainer.querySelector('.suggestion-active');
                 if (currentActive) {
                     currentActive.classList.remove('suggestion-active');
                 }
-                // Then, add the active class to this item
                 item.classList.add('suggestion-active');
             });
 
@@ -82,7 +112,7 @@ async function getSuggestions() {
 searchQueryInput.addEventListener('input', getSuggestions);
 
 
-// --- Keyboard Navigation Logic (No changes needed here) ---
+// --- Keyboard Navigation Logic ---
 searchQueryInput.addEventListener('keydown', (e) => {
     const suggestions = suggestionsContainer.querySelectorAll('.suggestion-item');
     if (suggestions.length === 0) return;
@@ -130,6 +160,17 @@ searchQueryInput.addEventListener('keydown', (e) => {
 });
 
 
+// Hide suggestions when clicking outside
+document.addEventListener('click', (event) => {
+    if (!searchQueryInput.contains(event.target) && !suggestionsContainer.contains(event.target)) {
+        suggestionsContainer.innerHTML = '';
+    }
+});
+
+// Re-fetch suggestions when the search box is focused
+searchQueryInput.addEventListener('focus', getSuggestions);
+
+
 // --- Quote Fetcher Logic ---
 const quoteTextElement = document.getElementById('quote-text');
 const quoteAuthorElement = document.getElementById('quote-author');
@@ -145,4 +186,9 @@ async function getQuote() {
         console.error("Fetch error:", error);
     }
 }
-getQuote();
+
+// --- Initial Page Load Actions ---
+document.addEventListener('DOMContentLoaded', () => {
+    getWeather();
+    getQuote();
+});

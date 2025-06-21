@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  # This is our existing frontend web server
+  # This is your existing frontend web server
   web:
     build: .
     ports:
@@ -8,9 +8,12 @@ services:
     volumes:
       - ./src:/usr/share/nginx/html
 
-  # This is our new backend proxy server
+  # This is our backend proxy server
   proxy:
     build:
       context: ./proxy # Tell Docker to look in the proxy folder
     ports:
       - "3000:3000"
+    # ADD THIS SECTION
+    env_file:
+      - .env  # This explicitly tells Docker to load variables from the .env file

@@ -15,10 +15,16 @@
 </head>
 <body>
     <main class="container">
-        <header>
-            <h1>My Dashboard</h1>
-            <p id="current-time"></p>
-        </header>
+        <header class="smart-header">
+        <div id="time-container">
+            <div id="current-time">--:--</div>
+            <div id="current-date">Loading...</div>
+        </div>
+        <div id="weather-container">
+            <img id="weather-icon" src="" alt="">
+            <span id="weather-temp">--°C</span>
+        </div>
+    </header>
 
         <section class="widget" id="search-widget">
             <form id="search-form">
@@ -43,6 +49,30 @@
                     </label>
                 </div>
             </form>
+        </section>
+
+        <section class="widget" id="links-widget">
+            <h3>Quick Links</h3>
+            <ul class="links-grid">
+                <li>
+                    <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+                        <i class="ph-bold ph-github-logo"></i>
+                        <span>GitHub</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="http://10.19.84.240:8096" target="_blank" rel="noopener noreferrer">
+                        <i class="ph-bold ph-film-strip"></i>
+                        <span>Jellyfin</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://youtube.com" target="_blank" rel="noopener noreferrer">
+                        <i class="ph-bold ph-youtube-logo"></i>
+                        <span>YouTube</span>
+                    </a>
+                </li>
+                </ul>
         </section>
 
         <section class="widget" id="quote-widget">
