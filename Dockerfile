@@ -2,4 +2,4 @@
 FROM nginx:alpine
 
 # Copy your website files to the Nginx web root directory
-COPY . /usr/share/nginx/html
+COPY ./src /usr/share/nginx/html

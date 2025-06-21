@@ -87,3 +87,28 @@ cite {
     gap: 1rem;
     justify-content: center;
 }
+
+/* --- Suggestions Styles --- */
+#suggestions-container {
+    background-color: #333;
+    border-radius: 4px;
+    margin-top: -0.5rem; /* Pull it up slightly to feel connected */
+    overflow: hidden; /* Ensures the rounded corners apply to children */
+}
+
+.suggestion-item {
+    padding: 0.75rem;
+    cursor: pointer;
+    color: #e0e0e0;
+}
+
+.suggestion-item:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Add this new class for keyboard navigation */
+.suggestion-active {
+    background-color: #007bff;
+    color: white;
+}
