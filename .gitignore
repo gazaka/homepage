@@ -1,0 +1,12 @@
+# Environment variables - NEVER commit these!
+.env
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+
+# IDE / OS specific
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
