@@ -4,16 +4,19 @@ const dateElement = document.getElementById('current-date');
 
 function updateTimeAndDate() {
     const now = new Date();
+    // Time
     const timeString = now.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' });
     timeElement.textContent = timeString;
+    // Date
     const dateString = now.toLocaleDateString(navigator.language, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     dateElement.textContent = dateString;
 }
+// Update immediately, then every second
 updateTimeAndDate();
 setInterval(updateTimeAndDate, 1000);
 
 
-// --- Weather Logic ---
+// --- Weather Logic (Heavily Updated for WeatherAPI.com) ---
 const weatherIconElement = document.getElementById('weather-icon');
 const weatherTempElement = document.getElementById('weather-temp');
 
@@ -23,19 +26,37 @@ async function getWeather() {
 
     try {
         const response = await fetch(`http://localhost:3000/weather?lat=${lat}&lon=${lon}`);
-        
-        // NEW: Check if the response from our proxy was successful
         if (!response.ok) {
-            // If not, throw an error to be caught by the catch block
             throw new Error(`Server responded with ${response.status}`);
         }
-
         const data = await response.json();
-        
-        weatherTempElement.textContent = `${Math.round(data.main.temp)}°C`;
-        const iconCode = data.weather[0].icon;
-        weatherIconElement.src = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
-        weatherIconElement.alt = data.weather[0].description;
+
+        // --- Part 1: Update the Smart Header (with CURRENT weather) ---
+        const current = data.current;
+        weatherTempElement.textContent = `${Math.round(current.temp_c)}°C`;
+        // The new API provides a full URL for the icon, so we add "https:" to it
+        weatherIconElement.src = `https:${current.condition.icon}`;
+        weatherIconElement.alt = current.condition.text;
+
+        // --- Part 2: Update the Forecast Widget ---
+        const forecastDays = document.querySelectorAll('.forecast-day');
+        // The forecast data is in a different array now: `data.forecast.forecastday`
+        data.forecast.forecastday.slice(0, 5).forEach((day, index) => {
+            const dayElement = forecastDays[index];
+            if (!dayElement) return;
+
+            // The date is a string, so we convert it to get the day name
+            const dayName = new Date(day.date).toLocaleDateString(navigator.language, { weekday: 'long' });
+            dayElement.querySelector('.forecast-day-name').textContent = index === 0 ? 'Today' : (index === 1 ? 'Tomorrow' : dayName);
+            
+            // Get Icon
+            const forecastIconUrl = day.day.condition.icon;
+            dayElement.querySelector('.forecast-icon').src = `https:${forecastIconUrl}`;
+            
+            // Get Temps
+            dayElement.querySelector('.temp-high').textContent = `${Math.round(day.day.maxtemp_c)}°`;
+            dayElement.querySelector('.temp-low').textContent = `${Math.round(day.day.mintemp_c)}°`;
+        });
 
     } catch (error) {
         console.error("Failed to fetch weather:", error);
@@ -44,8 +65,8 @@ async function getWeather() {
 }
 
 
+
 // --- Universal Search Logic ---
-// ... (The rest of your main.js file from here is unchanged) ...
 const searchForm = document.getElementById('search-form');
 function handleSearch(event) {
     event.preventDefault();
@@ -181,7 +202,8 @@ async function getQuote() {
         const data = await response.json();
         quoteTextElement.textContent = `"${data.quote}"`;
         quoteAuthorElement.textContent = `— ${data.author}`;
-    } catch (error) {
+    } catch (error)
+        {
         quoteTextElement.textContent = "Couldn't fetch a quote. Please try again later.";
         console.error("Fetch error:", error);
     }

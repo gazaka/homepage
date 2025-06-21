@@ -12,19 +12,60 @@
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     
     <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
 </head>
 <body>
     <main class="container">
         <header class="smart-header">
-        <div id="time-container">
-            <div id="current-time">--:--</div>
-            <div id="current-date">Loading...</div>
-        </div>
-        <div id="weather-container">
-            <img id="weather-icon" src="" alt="">
-            <span id="weather-temp">--°C</span>
-        </div>
-    </header>
+            <div id="time-container">
+                <div id="current-time">--:--</div>
+                <div id="current-date">Loading...</div>
+            </div>
+            <div id="weather-container">
+                <img id="weather-icon" src="" alt="">
+                <span id="weather-temp">--°C</span>
+            </div>
+        </header>
+
+        <section class="widget" id="forecast-widget">
+            <div class="forecast-grid">
+                <div class="forecast-day">
+                    <div class="forecast-day-name">Today</div>
+                    <img src="" alt="" class="forecast-icon">
+                    <div class="forecast-temps">
+                        <span class="temp-high">--°</span> / <span class="temp-low">--°</span>
+                    </div>
+                </div>
+                <div class="forecast-day">
+                    <div class="forecast-day-name">Tomorrow</div>
+                    <img src="" alt="" class="forecast-icon">
+                    <div class="forecast-temps">
+                        <span class="temp-high">--°</span> / <span class="temp-low">--°</span>
+                    </div>
+                </div>
+                <div class="forecast-day">
+                    <div class="forecast-day-name">Next Day</div>
+                    <img src="" alt="" class="forecast-icon">
+                    <div class="forecast-temps">
+                        <span class="temp-high">--°</span> / <span class="temp-low">--°</span>
+                    </div>
+                </div>
+                <div class="forecast-day">
+                    <div class="forecast-day-name">Day 4</div>
+                    <img src="" alt="" class="forecast-icon">
+                    <div class="forecast-temps">
+                        <span class="temp-high">--°</span> / <span class="temp-low">--°</span>
+                    </div>
+                </div>
+                <div class="forecast-day">
+                    <div class="forecast-day-name">Day 5</div>
+                    <img src="" alt="" class="forecast-icon">
+                    <div class="forecast-temps">
+                        <span class="temp-high">--°</span> / <span class="temp-low">--°</span>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <section class="widget" id="search-widget">
             <form id="search-form">
@@ -61,7 +102,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="http://10.19.84.240:8096" target="_blank" rel="noopener noreferrer">
+                    <a href="http://192.168.1.100:8096" target="_blank" rel="noopener noreferrer">
                         <i class="ph-bold ph-film-strip"></i>
                         <span>Jellyfin</span>
                     </a>
@@ -72,9 +113,9 @@
                         <span>YouTube</span>
                     </a>
                 </li>
-                </ul>
+            </ul>
         </section>
-
+        
         <section class="widget" id="quote-widget">
             <h3>Quote of the Moment</h3>
             <blockquote id="quote-text">Loading...</blockquote>

@@ -8,6 +8,7 @@ require('dotenv').config();
 const app = express();
 const PORT = 3000;
 
+// Use CORS middleware to allow requests from our frontend
 app.use(cors());
 
 // Suggestions endpoint
@@ -25,7 +26,7 @@ app.get('/suggestions', async (req, res) => {
   }
 });
 
-// Weather endpoint
+// Weather endpoint - UPDATED for a 5-day forecast
 app.get('/weather', async (req, res) => {
   const { lat, lon } = req.query;
   const apiKey = process.env.WEATHER_API_KEY;
@@ -33,11 +34,14 @@ app.get('/weather', async (req, res) => {
   if (!lat || !lon || !apiKey) {
     return res.status(400).json({ error: 'Missing required parameters: lat, lon, or API key.' });
   }
+
   try {
-    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+    // The only change is here: days=5
+    const url = `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${lat},${lon}&days=5&aqi=no&alerts=no`;
     const response = await axios.get(url);
     res.json(response.data);
   } catch (error) {
+    console.error("Error fetching from WeatherAPI.com:", error.response ? error.response.data : error.message);
     res.status(500).json({ error: 'Failed to fetch weather data' });
   }
 });
