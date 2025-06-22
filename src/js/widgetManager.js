@@ -13,7 +13,7 @@ function saveWidgetStates(states) {
 
 function applyInitialStates() {
     const states = loadWidgetStates();
-    document.querySelectorAll('.widget[data-widget-id]').forEach(widget => {
+    document.querySelectorAll('.widget[data-widget-id]').forEach((widget) => {
         const widgetId = widget.dataset.widgetId;
         if (states[widgetId]) {
             widget.classList.add('collapsed');
@@ -26,8 +26,8 @@ function toggleWidgetState(widget) {
     if (!widgetId) return;
 
     const states = loadWidgetStates();
-    states[widgetId] = !widget.classList.contains('collapsed'); 
-    
+    states[widgetId] = !widget.classList.contains('collapsed');
+
     widget.classList.toggle('collapsed');
     saveWidgetStates(states);
 }
