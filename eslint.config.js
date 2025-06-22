@@ -1,9 +1,9 @@
 // eslint.config.js
-const globals = require('globals');
-const js = require('@eslint/js');
-const prettierConfig = require('eslint-config-prettier');
+import globals from 'globals';
+import js from '@eslint/js';
+import prettierConfig from 'eslint-config-prettier';
 
-module.exports = [
+export default [
     {
         ignores: ['proxy/'], // We don't want to lint the proxy's node_modules
     },
