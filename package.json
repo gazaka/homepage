@@ -1,0 +1,25 @@
+{
+  "name": "june-project-2025",
+  "version": "1.0.0",
+  "description": "A personal, dynamic dashboard built from scratch to learn and apply core concepts of modern web development, containerization, and client-server architecture. The dashboard provides at-a-glance information and quick access to frequently used services.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gazaka/learning_homepage.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gazaka/learning_homepage/issues"
+  },
+  "homepage": "https://github.com/gazaka/learning_homepage#readme",
+  "devDependencies": {
+    "eslint": "^9.29.0",
+    "eslint-config-prettier": "^10.1.5",
+    "prettier": "^3.5.3"
+  }
+}
