@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Dashboard</title>
 
+    <!-- Fonts, Icons, and Styles -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-    
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" type="image/png" href="assets/images/favicon.png">
 </head>
@@ -26,7 +25,6 @@
                 <span id="weather-temp">--°C</span>
             </div>
         </header>
-
         <section class="widget" id="forecast-widget">
             <div class="forecast-grid">
                 <div class="forecast-day">
@@ -66,7 +64,6 @@
                 </div>
             </div>
         </section>
-
         <section class="widget" id="search-widget">
             <form id="search-form">
                 <div class="search-input-group">
@@ -93,17 +90,56 @@
         </section>
 
         <section class="widget" id="links-widget">
-            <h3>Quick Links</h3>
+            <div class="widget-header">
+                <h3>Quick Links</h3>
+                <button id="add-link-btn" class="widget-header-btn" title="Add New Link">
+                    <i class="ph-bold ph-plus"></i>
+                </button>
+            </div>
             <ul class="links-grid">
-                </ul>
+                <!-- Links are dynamically inserted here by JavaScript -->
+            </ul>
         </section>
         
+
+
         <section class="widget" id="quote-widget">
             <h3>Quote of the Moment</h3>
             <blockquote id="quote-text">Loading...</blockquote>
             <cite id="quote-author"></cite>
         </section>
+        
+        <section class="widget" id="settings-widget">
+            <h3>Theme</h3>
+            <div id="theme-switcher">
+                <button data-theme="default-dark" class="theme-btn active" title="Default Dark Theme"></button>
+                <button data-theme="retro-green" class="theme-btn" title="Retro Green Theme"></button>
+                <button data-theme="sepia-mode" class="theme-btn" title="Sepia Theme"></button>
+            </div>
+        </section>
 
+        <!-- Add Link Modal -->
+        <div id="add-link-modal-overlay" class="hidden">
+            <div id="add-link-modal">
+                <div class="modal-header">
+                    <h2>Add New Link</h2>
+                    <button id="add-link-modal-close-btn" title="Close">&times;</button>
+                </div>
+                <form id="add-link-form">
+                    <div class="form-group">
+                        <label for="link-name">Name</label>
+                        <input type="text" id="link-name" required placeholder="e.g., Google News" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="link-url">URL or Search Term</label>
+                        <input type="text" id="link-url" required placeholder="e.g., news.google.com or 'latest tech news'" autocomplete="off">
+                    </div>
+                    <button type="submit" class="form-submit-btn">Add Link</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Weather Detail Modal -->
         <div id="modal-overlay" class="hidden">
             <div id="weather-modal">
                 <div class="modal-header">
@@ -112,16 +148,17 @@
                 </div>
                 <div class="modal-body">
                     <div class="modal-stats">
-                        </div>
+                        <!-- Populated by JS -->
+                    </div>
                     <div class="modal-hourly-forecast-container">
                         <h4>Hourly Forecast</h4>
                         <div id="modal-hourly-forecast">
-                            </div>
+                            <!-- Hourly items will be inserted here by JS -->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </main>
 
     <script type="module" src="js/main.js"></script>

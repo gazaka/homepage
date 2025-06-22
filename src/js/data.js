@@ -11,7 +11,7 @@ export const myLinks = [
     },
     {
         name: 'YouTube',
-        url: 'https://youtube.com',
+        url: 'https://www.youtube.com',
         icon: 'ph-bold ph-youtube-logo',
     },
 ];
