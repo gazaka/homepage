@@ -25,8 +25,10 @@ let fullWeatherData = null;
 function displayWeatherData(data) {
     // Update the Smart Header
     const current = data.current;
-    document.getElementById('weather-temp').textContent = `${Math.round(current.temp_c)}°C`;
-    document.getElementById('weather-icon').src = `https:${current.condition.icon}`;
+    document.getElementById('weather-temp').textContent =
+        `${Math.round(current.temp_c)}°C`;
+    document.getElementById('weather-icon').src =
+        `https:${current.condition.icon}`;
     document.getElementById('weather-icon').alt = current.condition.text;
 
     // Update the Forecast Widget
@@ -35,11 +37,18 @@ function displayWeatherData(data) {
         const dayElement = forecastDays[index];
         if (!dayElement) return;
 
-        const dayName = new Date(day.date).toLocaleDateString(navigator.language, { weekday: 'long' });
-        dayElement.querySelector('.forecast-day-name').textContent = index === 0 ? 'Today' : (index === 1 ? 'Tomorrow' : dayName);
-        dayElement.querySelector('.forecast-icon').src = `https:${day.day.condition.icon}`;
-        dayElement.querySelector('.temp-high').textContent = `${Math.round(day.day.maxtemp_c)}°`;
-        dayElement.querySelector('.temp-low').textContent = `${Math.round(day.day.mintemp_c)}°`;
+        const dayName = new Date(day.date).toLocaleDateString(
+            navigator.language,
+            { weekday: 'long' }
+        );
+        dayElement.querySelector('.forecast-day-name').textContent =
+            index === 0 ? 'Today' : index === 1 ? 'Tomorrow' : dayName;
+        dayElement.querySelector('.forecast-icon').src =
+            `https:${day.day.condition.icon}`;
+        dayElement.querySelector('.temp-high').textContent =
+            `${Math.round(day.day.maxtemp_c)}°`;
+        dayElement.querySelector('.temp-low').textContent =
+            `${Math.round(day.day.mintemp_c)}°`;
     });
 }
 
@@ -50,26 +59,27 @@ function displayWeatherData(data) {
 async function getCoordinates() {
     const savedCoords = localStorage.getItem('userCoordinates');
     if (savedCoords) {
-        console.log("Using saved coordinates from localStorage.");
+        console.log('Using saved coordinates from localStorage.');
         return JSON.parse(savedCoords);
     }
 
     try {
-        console.log("Requesting location from browser.");
+        console.log('Requesting location from browser.');
         const position = await new Promise((resolve, reject) => {
             navigator.geolocation.getCurrentPosition(resolve, reject);
         });
-        
+
         const coords = {
             latitude: position.coords.latitude,
-            longitude: position.coords.longitude
+            longitude: position.coords.longitude,
         };
 
         localStorage.setItem('userCoordinates', JSON.stringify(coords));
         return coords;
-
     } catch (error) {
-        console.log(`Geolocation failed (${error.message}). Falling back to default.`);
+        console.log(
+            `Geolocation failed (${error.message}). Falling back to default.`
+        );
         return { latitude: 53.53, longitude: -2.35 };
     }
 }
@@ -79,12 +89,15 @@ async function getCoordinates() {
  * @param {number} dayIndex The index of the day to show (0-4).
  */
 function openWeatherModal(dayIndex) {
-    if (!fullWeatherData) return; 
+    if (!fullWeatherData) return;
 
     const dayData = fullWeatherData.forecast.forecastday[dayIndex];
 
     // Populate Modal Header
-    modalDateElement.textContent = new Date(dayData.date).toLocaleDateString(navigator.language, { weekday: 'long', month: 'long', day: 'numeric' });
+    modalDateElement.textContent = new Date(dayData.date).toLocaleDateString(
+        navigator.language,
+        { weekday: 'long', month: 'long', day: 'numeric' }
+    );
 
     // Populate Modal General Stats (Wind and Humidity)
     modalStatsContainer.innerHTML = `
@@ -100,8 +113,11 @@ function openWeatherModal(dayIndex) {
 
     // Populate Modal Hourly Forecast
     modalHourlyContainer.innerHTML = ''; // Clear previous hourly items
-    dayData.hour.forEach(hourData => {
-        const hour = new Date(hourData.time_epoch * 1000).toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' });
+    dayData.hour.forEach((hourData) => {
+        const hour = new Date(hourData.time_epoch * 1000).toLocaleTimeString(
+            navigator.language,
+            { hour: '2-digit', minute: '2-digit' }
+        );
         const hourlyItem = document.createElement('div');
         hourlyItem.className = 'hourly-item';
         hourlyItem.innerHTML = `
@@ -136,8 +152,8 @@ export async function getWeather() {
     const cachedTimestamp = localStorage.getItem(timestampKey);
 
     if (cachedWeatherData && cachedTimestamp) {
-        if ((Date.now() - cachedTimestamp) < CACHE_DURATION_MS) {
-            console.log("Loading weather from cache.");
+        if (Date.now() - cachedTimestamp < CACHE_DURATION_MS) {
+            console.log('Loading weather from cache.');
             fullWeatherData = JSON.parse(cachedWeatherData);
             displayWeatherData(fullWeatherData);
             return;
@@ -145,18 +161,20 @@ export async function getWeather() {
     }
 
     try {
-        const response = await fetch(`http://localhost:3000/weather?lat=${lat}&lon=${lon}`);
-        if (!response.ok) throw new Error(`Server responded with ${response.status}`);
+        const response = await fetch(
+            `http://localhost:3000/weather?lat=${lat}&lon=${lon}`
+        );
+        if (!response.ok)
+            throw new Error(`Server responded with ${response.status}`);
         const data = await response.json();
 
         fullWeatherData = data;
         localStorage.setItem(cacheKey, JSON.stringify(data));
         localStorage.setItem(timestampKey, Date.now());
-        
-        displayWeatherData(data);
 
+        displayWeatherData(data);
     } catch (error) {
-        console.error("Failed to fetch weather:", error);
+        console.error('Failed to fetch weather:', error);
         weatherWidget.innerHTML = `<div class="widget-error">Weather unavailable</div>`;
         forecastWidget.innerHTML = `<div class="widget-error">Forecast unavailable</div>`;
     }

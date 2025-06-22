@@ -12,11 +12,13 @@ function handleSearch(event) {
     const query = searchQueryInput.value.trim();
     if (!query) return;
 
-    const selectedEngine = document.querySelector('input[name="search-engine"]:checked').value;
+    const selectedEngine = document.querySelector(
+        'input[name="search-engine"]:checked'
+    ).value;
     const searchUrls = {
         google: `https://www.google.com/search?q=${encodeURIComponent(query)}`,
         duckduckgo: `https://duckduckgo.com/?q=${encodeURIComponent(query)}`,
-        youtube: `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`
+        youtube: `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`,
     };
 
     const url = searchUrls[selectedEngine];
@@ -36,22 +38,25 @@ async function getSuggestions() {
     }
 
     try {
-        const response = await fetch(`http://localhost:3000/suggestions?q=${encodeURIComponent(query)}`);
+        const response = await fetch(
+            `http://localhost:3000/suggestions?q=${encodeURIComponent(query)}`
+        );
         const suggestions = await response.json();
         suggestionsContainer.innerHTML = '';
 
-        suggestions.forEach(suggestion => {
+        suggestions.forEach((suggestion) => {
             const item = document.createElement('div');
             item.className = 'suggestion-item';
             item.textContent = suggestion.phrase;
-            
+
             item.addEventListener('click', () => {
                 searchQueryInput.value = suggestion.phrase;
                 searchForm.requestSubmit();
             });
 
             item.addEventListener('mouseenter', () => {
-                const currentActive = suggestionsContainer.querySelector('.suggestion-active');
+                const currentActive =
+                    suggestionsContainer.querySelector('.suggestion-active');
                 if (currentActive) {
                     currentActive.classList.remove('suggestion-active');
                 }
@@ -62,7 +67,7 @@ async function getSuggestions() {
         });
     } catch (error) {
         suggestionsContainer.innerHTML = '';
-        console.error("Suggestion fetch error:", error);
+        console.error('Suggestion fetch error:', error);
     }
 }
 
@@ -71,11 +76,13 @@ async function getSuggestions() {
  * @param {KeyboardEvent} e The keyboard event.
  */
 function handleKeyboardNav(e) {
-    const suggestions = suggestionsContainer.querySelectorAll('.suggestion-item');
+    const suggestions =
+        suggestionsContainer.querySelectorAll('.suggestion-item');
     if (suggestions.length === 0) return;
 
-    const currentActive = suggestionsContainer.querySelector('.suggestion-active');
-    
+    const currentActive =
+        suggestionsContainer.querySelector('.suggestion-active');
+
     switch (e.key) {
         case 'ArrowDown':
             e.preventDefault();
@@ -100,10 +107,14 @@ function handleKeyboardNav(e) {
                 if (prevSibling) {
                     prevSibling.classList.add('suggestion-active');
                 } else {
-                    suggestions[suggestions.length - 1].classList.add('suggestion-active');
+                    suggestions[suggestions.length - 1].classList.add(
+                        'suggestion-active'
+                    );
                 }
             } else {
-                suggestions[suggestions.length - 1].classList.add('suggestion-active');
+                suggestions[suggestions.length - 1].classList.add(
+                    'suggestion-active'
+                );
             }
             break;
 
@@ -121,7 +132,10 @@ function handleKeyboardNav(e) {
  * @param {MouseEvent} event The click event.
  */
 function handleOutsideClick(event) {
-    if (!searchQueryInput.contains(event.target) && !suggestionsContainer.contains(event.target)) {
+    if (
+        !searchQueryInput.contains(event.target) &&
+        !suggestionsContainer.contains(event.target)
+    ) {
         suggestionsContainer.innerHTML = '';
     }
 }

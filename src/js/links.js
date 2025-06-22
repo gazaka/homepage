@@ -4,7 +4,7 @@ export function renderLinks() {
     const linksGrid = document.querySelector('#links-widget .links-grid');
     linksGrid.innerHTML = '';
 
-    myLinks.forEach(link => {
+    myLinks.forEach((link) => {
         const listItem = document.createElement('li');
         const linkAnchor = document.createElement('a');
         const linkIcon = document.createElement('i');

@@ -1,9 +1,11 @@
 // src/js/quote.js
 
+// Add the missing variable declaration here
+const quoteWidget = document.getElementById('quote-widget'); 
 const quoteTextElement = document.getElementById('quote-text');
 const quoteAuthorElement = document.getElementById('quote-author');
 
-const CACHE_DURATION_MINUTES = 20; // 20 minutes
+const CACHE_DURATION_MINUTES = 360; // 6 hours
 const CACHE_DURATION_MS = CACHE_DURATION_MINUTES * 60 * 1000;
 
 function displayQuote(data) {
@@ -36,7 +38,7 @@ export async function getQuote() {
 
     } catch (error) {
         console.error("Fetch error:", error);
-        // Display a user-friendly error inside the widget
+        // Now this line will work because quoteWidget is defined
         quoteWidget.innerHTML = `<div class="widget-error">Could not load quote.</div>`;
     }
 }
