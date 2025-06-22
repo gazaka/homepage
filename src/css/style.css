@@ -1,4 +1,4 @@
-/* Define the color palette and other theme variables at the root */
+/* --- Global & Theme Variables --- */
 :root {
     --background-color: #1a1b1e;
     --widget-color: #242528;
@@ -74,7 +74,7 @@ body {
     font-weight: 500;
 }
 
-/* Style for our widgets */
+/* --- General Widget Styles --- */
 .widget {
     background-color: var(--widget-color);
     border-radius: 12px;
@@ -84,83 +84,6 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* --- Search Form Styles --- */
-#search-form {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.search-input-group {
-    display: flex;
-    gap: 0.5rem;
-}
-
-#search-query {
-    flex-grow: 1;
-    padding: 0.75rem;
-    font-size: 1rem;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    background-color: #333;
-    color: var(--text-primary);
-}
-
-#search-form button {
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    border: none;
-    border-radius: 4px;
-    background-color: var(--accent-color);
-    color: white;
-    cursor: pointer;
-    transition:
-        background-color 0.2s ease-in-out,
-        transform 0.2s ease-in-out;
-}
-
-#search-form button:hover {
-    background-color: #0069d9;
-    transform: scale(1.05);
-}
-
-#search-form button i {
-    font-size: 1.2rem;
-    vertical-align: middle;
-}
-
-.search-options {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-}
-
-/* --- Suggestions Styles --- */
-#suggestions-container {
-    position: absolute;
-    top: 52px;
-    left: 0;
-    right: 0;
-    z-index: 10;
-    background-color: #333;
-    border-radius: 4px;
-    overflow: hidden;
-}
-
-.suggestion-item {
-    padding: 0.75rem;
-    cursor: pointer;
-    color: var(--text-primary);
-    transition: background-color 0.15s ease-in-out;
-}
-
-.suggestion-active {
-    background-color: var(--accent-color);
-    color: white;
-}
-
-/* --- Widget Header & Buttons (for Links Widget) --- */
 .widget-header {
     display: flex;
     justify-content: space-between;
@@ -190,6 +113,145 @@ body {
 .widget-header-btn:hover {
     background-color: var(--border-color);
     color: var(--text-primary);
+}
+
+.widget-error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--text-secondary);
+    font-style: italic;
+    min-height: 50px;
+}
+
+/* --- Search Widget Styles --- */
+#search-widget {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+#search-form {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Increased gap for better spacing */
+}
+
+.search-input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: #333;
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    transition:
+        border-color 0.2s ease-in-out,
+        box-shadow 0.2s ease-in-out;
+}
+
+.search-input-group:focus-within {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+}
+
+#search-query {
+    flex-grow: 1;
+    padding: 0.9rem 3.5rem 0.9rem 1rem;
+    font-size: 1.1rem;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+}
+
+#search-form button[type='submit'] {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition:
+        color 0.2s ease-in-out,
+        transform 0.2s ease-in-out;
+}
+
+#search-form button[type='submit']:hover {
+    color: var(--accent-color);
+    transform: translateY(-50%) scale(1.1);
+    background: none;
+}
+
+#suggestions-container {
+    position: absolute;
+    top: 60px; /* Adjusted slightly for new padding */
+    left: 0;
+    right: 0;
+    z-index: 10;
+    background-color: #333;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.suggestion-item {
+    padding: 0.75rem;
+    cursor: pointer;
+    color: var(--text-primary);
+    transition: background-color 0.15s ease-in-out;
+}
+
+.suggestion-active {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+/* --- Search Engine Selector Styles --- */
+#search-engine-selector {
+    display: flex;
+    justify-content: flex-start; /* Aligned to the left */
+    gap: 0.75rem;
+}
+
+.engine-btn {
+    background-color: transparent;
+    border: none; /* Removed the border for a cleaner look */
+    color: var(--text-secondary);
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* NEW: Set default faded state and smooth transitions */
+    opacity: 0.6;
+    transform: scale(1);
+    transition: all 0.2s ease-in-out;
+}
+
+.engine-btn:hover {
+    opacity: 1; /* Become fully visible on hover */
+    color: var(--text-primary);
+}
+
+.engine-btn.active {
+    opacity: 1; /* The active button is fully visible */
+    transform: scale(1.1); /* Make it slightly larger to indicate selection */
+    color: var(--text-primary);
+    /* The distracting border and box-shadow have been removed */
 }
 
 /* --- Links Widget Styles --- */
@@ -243,7 +305,7 @@ body {
     border-radius: 50%;
     width: 24px;
     height: 24px;
-    display: none; /* Hidden by default */
+    display: none;
     align-items: center;
     justify-content: center;
 }
@@ -274,6 +336,13 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 0.25rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: background-color 0.2s ease-in-out;
+}
+.forecast-day:hover {
+    background-color: var(--background-color);
 }
 
 .forecast-day-name {
@@ -315,18 +384,7 @@ cite {
     margin-top: 0.5rem;
 }
 
-/* --- Error Message Styles --- */
-.widget-error {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    color: var(--text-secondary);
-    font-style: italic;
-    min-height: 50px;
-}
-
-/* --- Modal Styles --- */
+/* --- Modal Styles (General) --- */
 #modal-overlay,
 #add-link-modal-overlay {
     position: fixed;
@@ -349,16 +407,6 @@ cite {
     opacity: 0;
 }
 
-#weather-modal {
-    background-color: var(--widget-color);
-    padding: 1.5rem;
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-    width: 90%;
-    max-width: 700px;
-}
-
 .modal-header {
     display: flex;
     justify-content: space-between;
@@ -373,7 +421,8 @@ cite {
     font-size: 1.5rem;
 }
 
-#modal-close-btn {
+#modal-close-btn,
+#add-link-modal-close-btn {
     background: none;
     border: none;
     font-size: 2.5rem;
@@ -381,6 +430,17 @@ cite {
     cursor: pointer;
     line-height: 1;
     padding: 0;
+}
+
+/* --- Weather Detail Modal Styles --- */
+#weather-modal {
+    background-color: var(--widget-color);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 700px;
 }
 
 .modal-stats {
@@ -443,14 +503,6 @@ cite {
     max-width: 400px;
 }
 
-#add-link-modal #add-link-modal-close-btn {
-    background: none;
-    border: none;
-    font-size: 2.5rem;
-    color: var(--text-secondary);
-    cursor: pointer;
-}
-
 #add-link-form .form-group {
     margin-bottom: 1rem;
 }
@@ -485,18 +537,18 @@ cite {
     cursor: pointer;
 }
 
-/* --- NEW Theme Controller Styles (Static Triangle) --- */
+/* --- Theme Controller & Theme Definitions --- */
 #theme-controller {
     position: fixed;
     bottom: 1rem;
     right: 1rem;
-    width: 80px; /* Width to contain the triangle base */
-    height: 70px; /* Height to contain the triangle */
+    width: 80px;
+    height: 70px;
     z-index: 100;
 }
 
 .theme-btn {
-    position: absolute; /* Position each button within the controller */
+    position: absolute;
     width: 30px;
     height: 30px;
     border-radius: 50%;
@@ -516,36 +568,29 @@ cite {
     box-shadow: 0 0 8px var(--accent-color);
 }
 
-/* Position the buttons in a triangle */
 .theme-btn:nth-child(1) {
     bottom: 0;
     left: 0;
-} /* Bottom-left */
+}
 .theme-btn:nth-child(2) {
     bottom: 0;
     right: 0;
-} /* Bottom-right */
+}
 .theme-btn:nth-child(3) {
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-} /* Top-center */
+}
 
-/* Style the colors of the buttons */
 .theme-btn[data-theme='default-dark'] {
     background-color: #1a1b1e;
 }
 .theme-btn[data-theme='retro-green'] {
     background-color: #0d2b0d;
 }
-.theme-body.theme-sepia-mode .theme-btn[data-theme='sepia-mode'] {
-    background-color: #fdf6e3;
-}
 .theme-btn[data-theme='sepia-mode'] {
     background-color: #e9c46a;
 }
-
-/* --- THEME DEFINITIONS --- */
 
 /* Retro Green Theme */
 body.theme-retro-green {
@@ -568,32 +613,33 @@ body.theme-sepia-mode {
     --border-color: #eee8d5;
 }
 
-/* Make sepia icons darker to be visible */
+/* Sepia Theme Overrides */
 body.theme-sepia-mode .links-grid a i,
 body.theme-sepia-mode .smart-header i {
     color: #839496;
 }
 
-/* Style the search input for sepia mode */
-body.theme-sepia-mode #search-query {
+body.theme-sepia-mode .search-input-group {
     background-color: var(--background-color);
     border-color: #ddd;
 }
 
-/* Style the suggestions dropdown for sepia mode */
 body.theme-sepia-mode #suggestions-container {
     background-color: var(--widget-color);
     border: 1px solid #ddd;
 }
 
-/* Fix the hover color for links in sepia mode */
 body.theme-sepia-mode .links-grid a:hover {
-    background-color: #fdf6e3; /* A lighter shade of the widget color */
+    background-color: #fdf6e3;
     border-color: var(--accent-color);
 }
 
-/* Fix the input box colors in the Add Link modal for sepia mode */
 body.theme-sepia-mode #add-link-form input {
     background-color: var(--background-color);
     border-color: #ddd;
+}
+
+/* Hide the border on the suggestions container when it has no content */
+body.theme-sepia-mode #suggestions-container:empty {
+    border: none;
 }

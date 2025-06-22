@@ -2,6 +2,10 @@
 const searchForm = document.getElementById('search-form');
 const searchQueryInput = document.getElementById('search-query');
 const suggestionsContainer = document.getElementById('suggestions-container');
+const searchEngineSelector = document.getElementById('search-engine-selector');
+
+// A state variable to keep track of the selected search engine
+let selectedEngine = 'google';
 
 /**
  * Handles the main search form submission.
@@ -12,9 +16,7 @@ function handleSearch(event) {
     const query = searchQueryInput.value.trim();
     if (!query) return;
 
-    const selectedEngine = document.querySelector(
-        'input[name="search-engine"]:checked'
-    ).value;
+    // The logic now uses our 'selectedEngine' variable
     const searchUrls = {
         google: `https://www.google.com/search?q=${encodeURIComponent(query)}`,
         duckduckgo: `https://duckduckgo.com/?q=${encodeURIComponent(query)}`,
@@ -142,7 +144,6 @@ function handleOutsideClick(event) {
 
 /**
  * Initializes all search-related event listeners.
- * This is the only function exported from this module.
  */
 export function initSearch() {
     searchForm.addEventListener('submit', handleSearch);
@@ -150,4 +151,22 @@ export function initSearch() {
     searchQueryInput.addEventListener('keydown', handleKeyboardNav);
     searchQueryInput.addEventListener('focus', getSuggestions);
     document.addEventListener('click', handleOutsideClick);
+
+    // Check to make sure the searchEngineSelector element exists before adding a listener
+    if (searchEngineSelector) {
+        searchEngineSelector.addEventListener('click', (e) => {
+            const clickedButton = e.target.closest('.engine-btn');
+            if (!clickedButton) return;
+
+            // Update the state variable
+            selectedEngine = clickedButton.dataset.engine;
+
+            // Update the UI
+            const currentActive = searchEngineSelector.querySelector('.active');
+            if (currentActive) {
+                currentActive.classList.remove('active');
+            }
+            clickedButton.classList.add('active');
+        });
+    }
 }

@@ -64,27 +64,30 @@
                 </div>
             </div>
         </section>
+
         <section class="widget" id="search-widget">
             <form id="search-form">
                 <div class="search-input-group">
                     <input type="text" id="search-query" placeholder="Search..." required autofocus autocomplete="off">
                     <button type="submit" title="Search">
+                        <!-- This icon class is for the magnifying glass -->
                         <i class="ph-bold ph-magnifying-glass"></i>
                     </button>
                 </div>
-                
+
                 <div id="suggestions-container"></div>
 
-                <div class="search-options">
-                    <label>
-                        <input type="radio" name="search-engine" value="google" checked> Google
-                    </label>
-                    <label>
-                        <input type="radio" name="search-engine" value="duckduckgo"> DuckDuckGo
-                    </label>
-                    <label>
-                        <input type="radio" name="search-engine" value="youtube"> YouTube
-                    </label>
+                <!-- This is the icon-based engine selector -->
+                <div id="search-engine-selector">
+                    <button type="button" class="engine-btn active" data-engine="google" title="Search with Google">
+                        <i class="ph-bold ph-google-logo"></i>
+                    </button>
+                    <button type="button" class="engine-btn" data-engine="duckduckgo" title="Search with DuckDuckGo">
+                        <i class="ph-bold ph-detective"></i>
+                    </button>
+                    <button type="button" class="engine-btn" data-engine="youtube" title="Search with YouTube">
+                        <i class="ph-bold ph-youtube-logo"></i>
+                    </button>
                 </div>
             </form>
         </section>
