@@ -34,11 +34,9 @@ app.get('/weather', async (req, res) => {
     const apiKey = process.env.WEATHER_API_KEY;
 
     if (!lat || !lon || !apiKey) {
-        return res
-            .status(400)
-            .json({
-                error: 'Missing required parameters: lat, lon, or API key.',
-            });
+        return res.status(400).json({
+            error: 'Missing required parameters: lat, lon, or API key.',
+        });
     }
 
     try {

@@ -1,7 +1,7 @@
 // src/js/quote.js
 
 // Add the missing variable declaration here
-const quoteWidget = document.getElementById('quote-widget'); 
+const quoteWidget = document.getElementById('quote-widget');
 const quoteTextElement = document.getElementById('quote-text');
 const quoteAuthorElement = document.getElementById('quote-author');
 
@@ -18,26 +18,26 @@ export async function getQuote() {
     const cachedTimestamp = localStorage.getItem('quoteTimestamp');
 
     if (cachedQuote && cachedTimestamp) {
-        if ((Date.now() - cachedTimestamp) < CACHE_DURATION_MS) {
-            console.log("Loading quote from cache.");
+        if (Date.now() - cachedTimestamp < CACHE_DURATION_MS) {
+            console.log('Loading quote from cache.');
             displayQuote(JSON.parse(cachedQuote));
             return;
         }
     }
 
-    console.log("Fetching new quote from API.");
+    console.log('Fetching new quote from API.');
     try {
         const response = await fetch('https://dummyjson.com/quotes/random');
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        if (!response.ok)
+            throw new Error(`HTTP error! status: ${response.status}`);
         const data = await response.json();
-        
+
         localStorage.setItem('quoteData', JSON.stringify(data));
         localStorage.setItem('quoteTimestamp', Date.now());
-        
-        displayQuote(data);
 
+        displayQuote(data);
     } catch (error) {
-        console.error("Fetch error:", error);
+        console.error('Fetch error:', error);
         // Now this line will work because quoteWidget is defined
         quoteWidget.innerHTML = `<div class="widget-error">Could not load quote.</div>`;
     }
