@@ -74,7 +74,7 @@ body {
     font-weight: 500;
 }
 
-/* --- General Widget Styles --- */
+/* --- General Widget & Section Styles --- */
 .widget {
     background-color: var(--widget-color);
     border-radius: 12px;
@@ -82,6 +82,21 @@ body {
     margin-bottom: 1rem;
     border: 1px solid var(--border-color);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.widget-group {
+    margin-bottom: 2rem;
+}
+
+.section-header {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0 0 1rem 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .widget-header {
@@ -96,6 +111,11 @@ body {
     color: var(--text-secondary);
 }
 
+.widget-header > div {
+    display: flex;
+    gap: 0.5rem;
+}
+
 .widget-header-btn {
     background: none;
     border: none;
@@ -105,9 +125,7 @@ body {
     padding: 0.25rem;
     line-height: 1;
     border-radius: 4px;
-    transition:
-        background-color 0.2s,
-        color 0.2s;
+    transition: background-color 0.2s, color 0.2s;
 }
 
 .widget-header-btn:hover {
@@ -125,6 +143,37 @@ body {
     min-height: 50px;
 }
 
+/* Styles for the collapse feature */
+.widget-body {
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+    max-height: 1000px; /* A large value to allow content to show */
+}
+
+.widget.collapsed .widget-body {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: -1rem; /* Adjust to remove header margin */
+    opacity: 0;
+}
+
+/* THIS IS THE CRUCIAL FIX: Make the icon a block-level element and add the transition */
+.collapse-btn i {
+    display: inline-block; /* This makes the transform work reliably */
+    transition: transform 0.3s ease-in-out;
+}
+
+/* This rule now correctly rotates the icon */
+.widget.collapsed .collapse-btn i {
+    transform: rotate(180deg);
+}
+
+#links-widget.collapsed #add-link-btn {
+    display: none;
+}
+
+
 /* --- Search Widget Styles --- */
 #search-widget {
     padding-top: 2rem;
@@ -135,7 +184,7 @@ body {
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem; /* Increased gap for better spacing */
+    gap: 1.5rem;
 }
 
 .search-input-group {
@@ -145,9 +194,7 @@ body {
     background-color: #333;
     border: 2px solid var(--border-color);
     border-radius: 10px;
-    transition:
-        border-color 0.2s ease-in-out,
-        box-shadow 0.2s ease-in-out;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 .search-input-group:focus-within {
@@ -165,7 +212,7 @@ body {
     color: var(--text-primary);
 }
 
-#search-form button[type='submit'] {
+#search-form button[type="submit"] {
     position: absolute;
     right: 5px;
     top: 50%;
@@ -182,12 +229,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    transition:
-        color 0.2s ease-in-out,
-        transform 0.2s ease-in-out;
+    transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
 }
 
-#search-form button[type='submit']:hover {
+#search-form button[type="submit"]:hover {
     color: var(--accent-color);
     transform: translateY(-50%) scale(1.1);
     background: none;
@@ -195,7 +240,7 @@ body {
 
 #suggestions-container {
     position: absolute;
-    top: 60px; /* Adjusted slightly for new padding */
+    top: 60px;
     left: 0;
     right: 0;
     z-index: 10;
@@ -216,16 +261,15 @@ body {
     color: white;
 }
 
-/* --- Search Engine Selector Styles --- */
 #search-engine-selector {
     display: flex;
-    justify-content: flex-start; /* Aligned to the left */
+    justify-content: flex-start;
     gap: 0.75rem;
 }
 
 .engine-btn {
     background-color: transparent;
-    border: none; /* Removed the border for a cleaner look */
+    border: none;
     color: var(--text-secondary);
     width: 44px;
     height: 44px;
@@ -235,24 +279,22 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-
-    /* NEW: Set default faded state and smooth transitions */
     opacity: 0.6;
     transform: scale(1);
     transition: all 0.2s ease-in-out;
 }
 
 .engine-btn:hover {
-    opacity: 1; /* Become fully visible on hover */
+    opacity: 1;
     color: var(--text-primary);
 }
 
 .engine-btn.active {
-    opacity: 1; /* The active button is fully visible */
-    transform: scale(1.1); /* Make it slightly larger to indicate selection */
+    opacity: 1;
+    transform: scale(1.1);
     color: var(--text-primary);
-    /* The distracting border and box-shadow have been removed */
 }
+
 
 /* --- Links Widget Styles --- */
 .links-grid {
@@ -278,9 +320,7 @@ body {
     border-radius: 8px;
     color: var(--text-primary);
     text-decoration: none;
-    transition:
-        background-color 0.2s ease-in-out,
-        border-color 0.2s ease-in-out;
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
 }
 
 .links-grid a:hover {
@@ -318,6 +358,7 @@ body {
     background: #dc3545;
     color: white;
 }
+
 
 /* --- Forecast Widget Styles --- */
 #forecast-widget {
@@ -364,6 +405,7 @@ body {
     color: var(--text-secondary);
 }
 
+
 /* --- Quote Widget Styles --- */
 #quote-widget h3 {
     margin-top: 0;
@@ -383,6 +425,7 @@ cite {
     text-align: right;
     margin-top: 0.5rem;
 }
+
 
 /* --- Modal Styles (General) --- */
 #modal-overlay,
@@ -421,8 +464,7 @@ cite {
     font-size: 1.5rem;
 }
 
-#modal-close-btn,
-#add-link-modal-close-btn {
+#modal-close-btn, #add-link-modal-close-btn {
     background: none;
     border: none;
     font-size: 2.5rem;
@@ -537,6 +579,7 @@ cite {
     cursor: pointer;
 }
 
+
 /* --- Theme Controller & Theme Definitions --- */
 #theme-controller {
     position: fixed;
@@ -554,9 +597,7 @@ cite {
     border-radius: 50%;
     border: 2px solid var(--border-color);
     cursor: pointer;
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .theme-btn:hover {
@@ -568,29 +609,14 @@ cite {
     box-shadow: 0 0 8px var(--accent-color);
 }
 
-.theme-btn:nth-child(1) {
-    bottom: 0;
-    left: 0;
-}
-.theme-btn:nth-child(2) {
-    bottom: 0;
-    right: 0;
-}
-.theme-btn:nth-child(3) {
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-}
+.theme-btn:nth-child(1) { bottom: 0; left: 0; }
+.theme-btn:nth-child(2) { bottom: 0; right: 0; }
+.theme-btn:nth-child(3) { top: 0; left: 50%; transform: translateX(-50%); }
 
-.theme-btn[data-theme='default-dark'] {
-    background-color: #1a1b1e;
-}
-.theme-btn[data-theme='retro-green'] {
-    background-color: #0d2b0d;
-}
-.theme-btn[data-theme='sepia-mode'] {
-    background-color: #e9c46a;
-}
+.theme-btn[data-theme='default-dark'] { background-color: #1a1b1e; }
+.theme-btn[data-theme='retro-green'] { background-color: #0d2b0d; }
+.theme-btn[data-theme='sepia-mode'] { background-color: #e9c46a; }
+
 
 /* Retro Green Theme */
 body.theme-retro-green {
@@ -613,9 +639,15 @@ body.theme-sepia-mode {
     --border-color: #eee8d5;
 }
 
+/* --- THEME OVERRIDES --- */
+/* These rules fix specific elements in different themes */
+
 /* Sepia Theme Overrides */
 body.theme-sepia-mode .links-grid a i,
-body.theme-sepia-mode .smart-header i {
+body.theme-sepia-mode .smart-header i,
+body.theme-sepia-mode #search-form button[type="submit"],
+body.theme-sepia-mode .engine-btn,
+body.theme-sepia-mode .widget-header-btn {
     color: #839496;
 }
 
@@ -629,6 +661,10 @@ body.theme-sepia-mode #suggestions-container {
     border: 1px solid #ddd;
 }
 
+body.theme-sepia-mode #suggestions-container:empty {
+    border: none;
+}
+
 body.theme-sepia-mode .links-grid a:hover {
     background-color: #fdf6e3;
     border-color: var(--accent-color);
@@ -637,9 +673,4 @@ body.theme-sepia-mode .links-grid a:hover {
 body.theme-sepia-mode #add-link-form input {
     background-color: var(--background-color);
     border-color: #ddd;
-}
-
-/* Hide the border on the suggestions container when it has no content */
-body.theme-sepia-mode #suggestions-container:empty {
-    border: none;
 }
