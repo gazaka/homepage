@@ -1,6 +1,6 @@
 // src/js/theme.js
 
-const themeSwitcher = document.getElementById('theme-switcher');
+const themeController = document.getElementById('theme-controller');
 const body = document.body;
 
 /**
@@ -16,7 +16,7 @@ function applyTheme(themeName) {
     }
 
     // Update active state on buttons
-    const buttons = themeSwitcher.querySelectorAll('.theme-btn');
+    const buttons = themeController.querySelectorAll('.theme-btn');
     buttons.forEach((btn) => {
         if (btn.dataset.theme === themeName) {
             btn.classList.add('active');
@@ -33,8 +33,9 @@ function applyTheme(themeName) {
  * Initializes the theme switcher functionality.
  */
 export function initTheme() {
-    // Add click listeners to each theme button
-    themeSwitcher.addEventListener('click', (event) => {
+    // Add a single click listener to the parent container
+    themeController.addEventListener('click', (event) => {
+        // Check if a theme button was clicked
         if (event.target.classList.contains('theme-btn')) {
             const themeName = event.target.dataset.theme;
             applyTheme(themeName);
@@ -45,5 +46,8 @@ export function initTheme() {
     const savedTheme = localStorage.getItem('selectedTheme');
     if (savedTheme) {
         applyTheme(savedTheme);
+    } else {
+        // Ensure a default theme is active on first load
+        applyTheme('default-dark');
     }
 }

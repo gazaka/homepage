@@ -86,7 +86,7 @@ body {
 
 /* --- Search Form Styles --- */
 #search-form {
-    position: relative; /* Add this line to act as an anchor */
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -138,12 +138,11 @@ body {
 
 /* --- Suggestions Styles --- */
 #suggestions-container {
-    position: absolute; /* Take it out of the normal document flow */
-    top: 52px; /* Position it just below the search input. Adjust if needed. */
+    position: absolute;
+    top: 52px;
     left: 0;
     right: 0;
-    z-index: 10; /* Ensure it renders on top of other elements */
-
+    z-index: 10;
     background-color: #333;
     border-radius: 4px;
     overflow: hidden;
@@ -161,13 +160,39 @@ body {
     color: white;
 }
 
-/* --- Links Widget Styles --- */
-#links-widget h3 {
-    margin-top: 0;
+/* --- Widget Header & Buttons (for Links Widget) --- */
+.widget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 1rem;
+}
+
+.widget-header h3 {
+    margin: 0;
     color: var(--text-secondary);
 }
 
+.widget-header-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.25rem;
+    line-height: 1;
+    border-radius: 4px;
+    transition:
+        background-color 0.2s,
+        color 0.2s;
+}
+
+.widget-header-btn:hover {
+    background-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+/* --- Links Widget Styles --- */
 .links-grid {
     list-style-type: none;
     padding: 0;
@@ -175,6 +200,10 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 1rem;
+}
+
+.links-grid li {
+    position: relative;
 }
 
 .links-grid a {
@@ -200,6 +229,32 @@ body {
 .links-grid a i {
     font-size: 1.5rem;
     color: var(--text-secondary);
+}
+
+.delete-link-btn {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: rgba(0, 0, 0, 0.3);
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: none; /* Hidden by default */
+    align-items: center;
+    justify-content: center;
+}
+
+.links-grid li:hover .delete-link-btn {
+    display: flex;
+}
+
+.delete-link-btn:hover {
+    background: #dc3545;
+    color: white;
 }
 
 /* --- Forecast Widget Styles --- */
@@ -268,26 +323,28 @@ cite {
     text-align: center;
     color: var(--text-secondary);
     font-style: italic;
-    min-height: 50px; /* Give it some space */
+    min-height: 50px;
 }
 
 /* --- Modal Styles --- */
-#modal-overlay {
-    position: fixed; /* Sit on top of the page content */
+#modal-overlay,
+#add-link-modal-overlay {
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Dark semi-transparent background */
+    background-color: rgba(0, 0, 0, 0.7);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 100; /* Make sure it's on top of everything */
+    z-index: 100;
     opacity: 1;
     transition: opacity 0.3s ease-in-out;
 }
 
-#modal-overlay.hidden {
+#modal-overlay.hidden,
+#add-link-modal-overlay.hidden {
     display: none;
     opacity: 0;
 }
@@ -352,7 +409,7 @@ cite {
 
 #modal-hourly-forecast {
     display: flex;
-    overflow-x: auto; /* Allow horizontal scrolling */
+    overflow-x: auto;
     gap: 1rem;
     padding-bottom: 1rem;
 }
@@ -365,7 +422,7 @@ cite {
     background-color: var(--background-color);
     padding: 0.75rem;
     border-radius: 8px;
-    min-width: 65px; /* Give each item a minimum width */
+    min-width: 65px;
 }
 
 .hourly-item .hourly-time {
@@ -377,45 +434,115 @@ cite {
     font-weight: 500;
 }
 
-/* --- Settings & Theme Styles --- */
-#settings-widget h3 {
-    margin-top: 0;
-    margin-bottom: 1rem;
-    color: var(--text-secondary);
+/* --- Add Link Modal Styles --- */
+#add-link-modal {
+    background-color: var(--widget-color);
+    padding: 1.5rem;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
 }
 
-#theme-switcher {
-    display: flex;
-    gap: 1rem;
+#add-link-modal #add-link-modal-close-btn {
+    background: none;
+    border: none;
+    font-size: 2.5rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+#add-link-form .form-group {
+    margin-bottom: 1rem;
+}
+
+#add-link-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+#add-link-form input {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: #333;
+    color: var(--text-primary);
+    box-sizing: border-box;
+}
+
+.form-submit-btn {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-weight: 500;
+    border: none;
+    border-radius: 4px;
+    background-color: var(--accent-color);
+    color: white;
+    cursor: pointer;
+}
+
+/* --- NEW Theme Controller Styles (Static Triangle) --- */
+#theme-controller {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    width: 80px; /* Width to contain the triangle base */
+    height: 70px; /* Height to contain the triangle */
+    z-index: 100;
 }
 
 .theme-btn {
+    position: absolute; /* Position each button within the controller */
     width: 30px;
     height: 30px;
     border-radius: 50%;
     border: 2px solid var(--border-color);
     cursor: pointer;
-    transition: transform 0.2s ease-in-out;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .theme-btn:hover {
-    transform: scale(1.1);
+    transform: scale(1.15);
 }
 
 .theme-btn.active {
     border-color: var(--accent-color);
-    box-shadow: 0 0 10px var(--accent-color);
+    box-shadow: 0 0 8px var(--accent-color);
 }
 
-/* Define button background colors */
+/* Position the buttons in a triangle */
+.theme-btn:nth-child(1) {
+    bottom: 0;
+    left: 0;
+} /* Bottom-left */
+.theme-btn:nth-child(2) {
+    bottom: 0;
+    right: 0;
+} /* Bottom-right */
+.theme-btn:nth-child(3) {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+} /* Top-center */
+
+/* Style the colors of the buttons */
 .theme-btn[data-theme='default-dark'] {
     background-color: #1a1b1e;
 }
 .theme-btn[data-theme='retro-green'] {
     background-color: #0d2b0d;
 }
+.theme-body.theme-sepia-mode .theme-btn[data-theme='sepia-mode'] {
+    background-color: #fdf6e3;
+}
 .theme-btn[data-theme='sepia-mode'] {
-    background-color: #f4a261;
+    background-color: #e9c46a;
 }
 
 /* --- THEME DEFINITIONS --- */
@@ -450,7 +577,7 @@ body.theme-sepia-mode .smart-header i {
 /* Style the search input for sepia mode */
 body.theme-sepia-mode #search-query {
     background-color: var(--background-color);
-    border-color: #ddd; /* A slightly darker border */
+    border-color: #ddd;
 }
 
 /* Style the suggestions dropdown for sepia mode */
@@ -459,145 +586,14 @@ body.theme-sepia-mode #suggestions-container {
     border: 1px solid #ddd;
 }
 
-/* --- Widget Header & Buttons --- */
-.widget-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
+/* Fix the hover color for links in sepia mode */
+body.theme-sepia-mode .links-grid a:hover {
+    background-color: #fdf6e3; /* A lighter shade of the widget color */
+    border-color: var(--accent-color);
 }
 
-.widget-header h3 {
-    margin: 0;
-    color: var(--text-secondary);
-}
-
-.widget-header-btn {
-    background: none;
-    border: none;
-    color: var(--text-secondary);
-    font-size: 1.5rem;
-    cursor: pointer;
-    padding: 0.25rem;
-    line-height: 1;
-    border-radius: 4px;
-    transition:
-        background-color 0.2s,
-        color 0.2s;
-}
-
-.widget-header-btn:hover {
-    background-color: var(--border-color);
-    color: var(--text-primary);
-}
-
-/* --- Links Widget Specific --- */
-/* Add position relative to allow absolute positioning of delete button */
-.links-grid li {
-    position: relative;
-}
-
-.delete-link-btn {
-    position: absolute;
-    top: 2px;
-    right: 2px;
-    background: rgba(0, 0, 0, 0.3);
-    border: none;
-    color: var(--text-secondary);
-    font-size: 1rem;
-    cursor: pointer;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    display: none; /* Hidden by default */
-    align-items: center;
-    justify-content: center;
-}
-
-/* Show the delete button when hovering over the list item */
-.links-grid li:hover .delete-link-btn {
-    display: flex;
-}
-
-.delete-link-btn:hover {
-    background: #dc3545; /* Red */
-    color: white;
-}
-
-/* --- Add Link Modal Styles --- */
-#add-link-modal-overlay {
-    /* Uses the same styles as #modal-overlay, so we can combine them */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 100;
-    opacity: 1;
-    transition: opacity 0.3s ease-in-out;
-}
-#add-link-modal-overlay.hidden {
-    display: none;
-    opacity: 0;
-}
-
-#add-link-modal {
-    background-color: var(--widget-color);
-    padding: 1.5rem;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 400px;
-}
-
-#add-link-modal .modal-header {
-    /* Re-use modal header styles */
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 1rem;
-    margin-bottom: 1rem;
-}
-#add-link-modal #add-link-modal-close-btn {
-    /* Re-use close button styles */
-    background: none;
-    border: none;
-    font-size: 2.5rem;
-    color: var(--text-secondary);
-    cursor: pointer;
-}
-
-#add-link-form .form-group {
-    margin-bottom: 1rem;
-}
-
-#add-link-form label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: var(--text-secondary);
-    font-weight: 500;
-}
-
-#add-link-form input {
-    width: 100%;
-    padding: 0.75rem;
-    font-size: 1rem;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    background-color: #333;
-    color: var(--text-primary);
-    box-sizing: border-box; /* Important for padding */
-}
-
-.form-submit-btn {
-    width: 100%;
-    padding: 0.75rem;
-    font-size: 1rem;
-    font-weight: 500;
-    border: none;
-    border-radius: 4px;
-    background-color: var(--accent-color);
-    color: white;
-    cursor: pointer;
+/* Fix the input box colors in the Add Link modal for sepia mode */
+body.theme-sepia-mode #add-link-form input {
+    background-color: var(--background-color);
+    border-color: #ddd;
 }
