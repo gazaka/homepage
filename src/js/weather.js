@@ -1,5 +1,7 @@
 // src/js/weather.js
 
+import { PROXY_PORT } from './config.js'; 
+
 // --- DOM ELEMENT SELECTION ---
 const weatherWidget = document.getElementById('weather-container');
 const forecastWidget = document.getElementById('forecast-widget');
@@ -152,29 +154,27 @@ export async function getWeather() {
     const cachedTimestamp = localStorage.getItem(timestampKey);
 
     if (cachedWeatherData && cachedTimestamp) {
-        if (Date.now() - cachedTimestamp < CACHE_DURATION_MS) {
-            console.log('Loading weather from cache.');
-            fullWeatherData = JSON.parse(cachedWeatherData);
-            displayWeatherData(fullWeatherData);
+        if ((Date.now() - cachedTimestamp) < CACHE_DURATION_MS) {
+            console.log("Loading weather from cache.");
+            displayWeatherData(JSON.parse(cachedWeatherData));
             return;
         }
     }
 
+    console.log("Fetching new weather data from API.");
     try {
-        const response = await fetch(
-            `http://localhost:3000/weather?lat=${lat}&lon=${lon}`
-        );
-        if (!response.ok)
-            throw new Error(`Server responded with ${response.status}`);
+        // UPDATED: The URL is now built dynamically
+        const proxyUrl = `http://${window.location.hostname}:${PROXY_PORT}/weather?lat=${lat}&lon=${lon}`;
+        const response = await fetch(proxyUrl);
+        if (!response.ok) throw new Error(`Server responded with ${response.status}`);
         const data = await response.json();
-
-        fullWeatherData = data;
+        
         localStorage.setItem(cacheKey, JSON.stringify(data));
         localStorage.setItem(timestampKey, Date.now());
-
+        
         displayWeatherData(data);
     } catch (error) {
-        console.error('Failed to fetch weather:', error);
+        console.error("Failed to fetch weather:", error);
         weatherWidget.innerHTML = `<div class="widget-error">Weather unavailable</div>`;
         forecastWidget.innerHTML = `<div class="widget-error">Forecast unavailable</div>`;
     }

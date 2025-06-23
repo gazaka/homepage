@@ -1,3 +1,4 @@
+import { PROXY_PORT } from './config.js'; 
 // Get all the necessary HTML elements for the search functionality
 const searchForm = document.getElementById('search-form');
 const searchQueryInput = document.getElementById('search-query');
@@ -40,10 +41,11 @@ async function getSuggestions() {
     }
 
     try {
-        const response = await fetch(
-            `http://localhost:3000/suggestions?q=${encodeURIComponent(query)}`
-        );
+        // UPDATED: The URL is now built dynamically
+        const proxyUrl = `http://${window.location.hostname}:${PROXY_PORT}/suggestions?q=${encodeURIComponent(query)}`;
+        const response = await fetch(proxyUrl);
         const suggestions = await response.json();
+        
         suggestionsContainer.innerHTML = '';
 
         suggestions.forEach((suggestion) => {
