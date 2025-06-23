@@ -4,7 +4,7 @@ services:
   web:
     build: .
     ports:
-      - "8080:80"
+      - "2525:2525"
     volumes:
       - ./src:/usr/share/nginx/html
 
@@ -13,7 +13,7 @@ services:
     build:
       context: ./proxy # Tell Docker to look in the proxy folder
     ports:
-      - "3000:3000"
+      - "2626:2626"
     # ADD THIS SECTION
     env_file:
       - .env  # This explicitly tells Docker to load variables from the .env file
