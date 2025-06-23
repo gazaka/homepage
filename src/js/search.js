@@ -11,14 +11,12 @@ let selectedEngine = 'google';
 
 /**
  * Handles the main search form submission.
- * @param {Event} event The form submission event.
  */
 function handleSearch(event) {
     event.preventDefault();
     const query = searchQueryInput.value.trim();
     if (!query) return;
 
-    // The logic now uses our 'selectedEngine' variable
     const searchUrls = {
         google: `https://www.google.com/search?q=${encodeURIComponent(query)}`,
         duckduckgo: `https://duckduckgo.com/?q=${encodeURIComponent(query)}`,
@@ -45,6 +43,9 @@ async function getSuggestions() {
         // THIS IS THE KEY CHANGE
         const proxyUrl = `http://${window.location.hostname}:${PROXY_PORT}/suggestions?q=${encodeURIComponent(query)}`;
         const response = await fetch(proxyUrl);
+        if (!response.ok) {
+            throw new Error(`Server responded with ${response.status}`);
+        }
         const suggestions = await response.json();
         suggestionsContainer.innerHTML = '';
 
@@ -77,7 +78,6 @@ async function getSuggestions() {
 
 /**
  * Handles ArrowUp, ArrowDown, and Enter key presses for suggestion navigation.
- * @param {KeyboardEvent} e The keyboard event.
  */
 function handleKeyboardNav(e) {
     const suggestions =
@@ -133,7 +133,6 @@ function handleKeyboardNav(e) {
 
 /**
  * Hides the suggestions if a click occurs outside the search components.
- * @param {MouseEvent} event The click event.
  */
 function handleOutsideClick(event) {
     if (
@@ -154,16 +153,13 @@ export function initSearch() {
     searchQueryInput.addEventListener('focus', getSuggestions);
     document.addEventListener('click', handleOutsideClick);
 
-    // Check to make sure the searchEngineSelector element exists before adding a listener
     if (searchEngineSelector) {
         searchEngineSelector.addEventListener('click', (e) => {
             const clickedButton = e.target.closest('.engine-btn');
             if (!clickedButton) return;
 
-            // Update the state variable
             selectedEngine = clickedButton.dataset.engine;
 
-            // Update the UI
             const currentActive = searchEngineSelector.querySelector('.active');
             if (currentActive) {
                 currentActive.classList.remove('active');

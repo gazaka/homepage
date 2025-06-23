@@ -145,7 +145,7 @@ function closeWeatherModal() {
  * Main function to get and display all weather data.
  */
 export async function getWeather() {
-    const coords = await getCoordinates();
+    const coords = await getCoordinates(); // This helper function is unchanged
     const { latitude: lat, longitude: lon } = coords;
 
     const cacheKey = `weatherData_${lat.toFixed(2)}_${lon.toFixed(2)}`;
@@ -156,7 +156,8 @@ export async function getWeather() {
     if (cachedWeatherData && cachedTimestamp) {
         if ((Date.now() - cachedTimestamp) < CACHE_DURATION_MS) {
             console.log("Loading weather from cache.");
-            displayWeatherData(JSON.parse(cachedWeatherData));
+            fullWeatherData = JSON.parse(cachedWeatherData);
+            displayWeatherData(fullWeatherData);
             return;
         }
     }
@@ -169,9 +170,10 @@ export async function getWeather() {
         if (!response.ok) throw new Error(`Server responded with ${response.status}`);
         const data = await response.json();
 
+        fullWeatherData = data;
         localStorage.setItem(cacheKey, JSON.stringify(data));
         localStorage.setItem(timestampKey, Date.now());
-
+        
         displayWeatherData(data);
     } catch (error) {
         console.error("Failed to fetch weather:", error);
