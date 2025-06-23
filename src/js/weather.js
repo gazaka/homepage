@@ -163,15 +163,15 @@ export async function getWeather() {
 
     console.log("Fetching new weather data from API.");
     try {
-        // UPDATED: The URL is now built dynamically
+        // THIS IS THE KEY CHANGE
         const proxyUrl = `http://${window.location.hostname}:${PROXY_PORT}/weather?lat=${lat}&lon=${lon}`;
         const response = await fetch(proxyUrl);
         if (!response.ok) throw new Error(`Server responded with ${response.status}`);
         const data = await response.json();
-        
+
         localStorage.setItem(cacheKey, JSON.stringify(data));
         localStorage.setItem(timestampKey, Date.now());
-        
+
         displayWeatherData(data);
     } catch (error) {
         console.error("Failed to fetch weather:", error);
