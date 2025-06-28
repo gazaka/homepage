@@ -11,6 +11,7 @@ let selectedEngine = 'duckduckgo';
 
 /**
  * Handles the main search form submission.
+ * @param {Event} event The form submission event.
  */
 function handleSearch(event) {
     event.preventDefault();
@@ -40,7 +41,6 @@ async function getSuggestions() {
     }
 
     try {
-        // THIS IS THE KEY CHANGE
         const proxyUrl = `http://${window.location.hostname}:${PROXY_PORT}/suggestions?q=${encodeURIComponent(query)}`;
         const response = await fetch(proxyUrl);
         if (!response.ok) {
@@ -77,11 +77,21 @@ async function getSuggestions() {
 }
 
 /**
- * Handles ArrowUp, ArrowDown, and Enter key presses for suggestion navigation.
+ * Handles ArrowUp, ArrowDown, Enter, and Escape key presses for suggestion navigation.
+ * @param {KeyboardEvent} e The keyboard event.
  */
 function handleKeyboardNav(e) {
     const suggestions =
         suggestionsContainer.querySelectorAll('.suggestion-item');
+
+    // NEW: Handle the Escape key to clear the search
+    if (e.key === 'Escape') {
+        searchQueryInput.value = '';
+        suggestionsContainer.innerHTML = '';
+        searchQueryInput.blur(); // Removes focus from the input
+        return;
+    }
+
     if (suggestions.length === 0) return;
 
     const currentActive =
@@ -167,4 +177,20 @@ export function initSearch() {
             clickedButton.classList.add('active');
         });
     }
+
+    // Global Key Listener for "Type Anywhere"
+    document.addEventListener('keydown', (e) => {
+        const activeElement = document.activeElement;
+        const isTypingInInput = activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA';
+        const isModalOpen = !document.getElementById('add-link-modal-overlay').classList.contains('hidden') || 
+                            !document.getElementById('modal-overlay').classList.contains('hidden');
+
+        if (isTypingInInput || isModalOpen) {
+            return;
+        }
+
+        if (e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) {
+            searchQueryInput.focus();
+        }
+    });
 }
