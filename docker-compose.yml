@@ -1,19 +1,18 @@
-version: '3.8'
 services:
-  # This is your existing frontend web server
   web:
     build: .
     ports:
-      - "2525:80"
+      # This is the main port for your application.
+      - "8080:80" 
     volumes:
       - ./src:/usr/share/nginx/html
+    # THIS IS THE NEW, IMPORTANT PART:
+    depends_on:
+      - proxy
 
-  # This is our backend proxy server
   proxy:
     build:
-      context: ./proxy # Tell Docker to look in the proxy folder
-    ports:
-      - "2626:3000"
-    # ADD THIS SECTION
+      context: ./proxy
+    # No ports need to be exposed here.
     env_file:
-      - .env  # This explicitly tells Docker to load variables from the .env file
+      - .env

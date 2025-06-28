@@ -1,7 +1,5 @@
 // src/js/weather.js
 
-import { PROXY_PORT } from './config.js';
-
 // --- DOM ELEMENT SELECTION ---
 const weatherWidget = document.getElementById('weather-container');
 const forecastWidget = document.getElementById('forecast-widget');
@@ -188,8 +186,7 @@ export async function getWeather() {
 
     console.log('Fetching new weather data from API.');
     try {
-        const proxyUrl = `http://${window.location.hostname}:${PROXY_PORT}/weather?lat=${lat}&lon=${lon}`;
-        const response = await fetch(proxyUrl);
+        const response = await fetch(`/api/weather?lat=${lat}&lon=${lon}`);
         if (!response.ok)
             throw new Error(`Server responded with ${response.status}`);
         const data = await response.json();
@@ -218,6 +215,13 @@ modalCloseBtn.addEventListener('click', closeWeatherModal);
 modalOverlay.addEventListener('click', (event) => {
     // Only close if the click is on the overlay itself, not the modal window
     if (event.target === modalOverlay) {
+        closeWeatherModal();
+    }
+});
+
+// NEW: Add a listener for the Escape key to close the modal
+window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !modalOverlay.classList.contains('hidden')) {
         closeWeatherModal();
     }
 });
