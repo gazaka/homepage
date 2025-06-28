@@ -7,7 +7,7 @@ const suggestionsContainer = document.getElementById('suggestions-container');
 const searchEngineSelector = document.getElementById('search-engine-selector');
 
 // A state variable to keep track of the selected search engine
-let selectedEngine = 'google';
+let selectedEngine = 'duckduckgo';
 
 /**
  * Handles the main search form submission.
