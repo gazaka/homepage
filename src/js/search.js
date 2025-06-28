@@ -6,6 +6,7 @@ const searchEngineSelector = document.getElementById('search-engine-selector');
 
 // A state variable to keep track of the selected search engine
 let selectedEngine = 'duckduckgo';
+let debounceTimer;
 
 /**
  * Handles the main search form submission.
@@ -43,6 +44,11 @@ async function getSuggestions() {
             `/api/suggestions?q=${encodeURIComponent(query)}`
         );
         if (!response.ok) {
+            // If we get a rate-limit error, we can just silently ignore it
+            if (response.status === 429) {
+                console.warn('Suggestion rate limit hit.');
+                return;
+            }
             throw new Error(`Server responded with ${response.status}`);
         }
         const suggestions = await response.json();
@@ -137,6 +143,14 @@ function handleKeyboardNav(e) {
                 currentActive.click();
             }
             break;
+
+        case ' ': // Listen for the spacebar
+            if (currentActive) {
+                e.preventDefault(); // Stop a space from being added
+                searchQueryInput.value = currentActive.textContent; // Autofill the input
+                suggestionsContainer.innerHTML = ''; // Clear the suggestions
+            }
+            break;
     }
 }
 
@@ -157,7 +171,17 @@ function handleOutsideClick(event) {
  */
 export function initSearch() {
     searchForm.addEventListener('submit', handleSearch);
-    searchQueryInput.addEventListener('input', getSuggestions);
+
+    // Instead of calling getSuggestions directly, we use a debounced approach.
+    searchQueryInput.addEventListener('input', () => {
+        // Clear the previous timer every time the user types a new character
+        clearTimeout(debounceTimer);
+        // Set a new timer
+        debounceTimer = setTimeout(() => {
+            getSuggestions();
+        }, 300); // Wait 300ms after the user stops typing
+    });
+
     searchQueryInput.addEventListener('keydown', handleKeyboardNav);
     searchQueryInput.addEventListener('focus', getSuggestions);
     document.addEventListener('click', handleOutsideClick);

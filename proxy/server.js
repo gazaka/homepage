@@ -1,8 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
-
-// This loads variables from the .env file
+const rateLimit = require('express-rate-limit'); // 1. Import the package
 require('dotenv').config();
 
 const app = express();
@@ -10,6 +9,18 @@ const PORT = 3000;
 
 // Use CORS middleware to allow requests from our frontend
 app.use(cors());
+
+// 2. Define the rate limiter rules
+const apiLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // Limit each IP to 100 requests per window
+    standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+    legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+    message: { error: 'Too many requests, please try again after 15 minutes.' },
+});
+
+// 3. Apply the rate limiter to all routes that start with /
+app.use('/', apiLimiter);
 
 // Suggestions endpoint
 app.get('/suggestions', async (req, res) => {
