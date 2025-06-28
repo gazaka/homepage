@@ -1,6 +1,6 @@
 // src/js/weather.js
 
-import { PROXY_PORT } from './config.js'; 
+import { PROXY_PORT } from './config.js';
 
 // --- DOM ELEMENT SELECTION ---
 const weatherWidget = document.getElementById('weather-container');
@@ -25,7 +25,6 @@ let fullWeatherData = null;
  * @param {object} data The weather data object.
  */
 function displayWeatherData(data) {
-    // Update the Smart Header
     const current = data.current;
     document.getElementById('weather-temp').textContent =
         `${Math.round(current.temp_c)}°C`;
@@ -33,7 +32,6 @@ function displayWeatherData(data) {
         `https:${current.condition.icon}`;
     document.getElementById('weather-icon').alt = current.condition.text;
 
-    // Update the Forecast Widget
     const forecastDays = document.querySelectorAll('.forecast-day');
     data.forecast.forecastday.slice(0, 5).forEach((day, index) => {
         const dayElement = forecastDays[index];
@@ -94,6 +92,8 @@ function openWeatherModal(dayIndex) {
     if (!fullWeatherData) return;
 
     const dayData = fullWeatherData.forecast.forecastday[dayIndex];
+    const isToday = dayIndex === 0;
+    const currentHour = new Date().getHours();
 
     // Populate Modal Header
     modalDateElement.textContent = new Date(dayData.date).toLocaleDateString(
@@ -116,12 +116,21 @@ function openWeatherModal(dayIndex) {
     // Populate Modal Hourly Forecast
     modalHourlyContainer.innerHTML = ''; // Clear previous hourly items
     dayData.hour.forEach((hourData) => {
-        const hour = new Date(hourData.time_epoch * 1000).toLocaleTimeString(
+        const hourDate = new Date(hourData.time_epoch * 1000);
+        const hour = hourDate.toLocaleTimeString(
             navigator.language,
             { hour: '2-digit', minute: '2-digit' }
         );
+        const forecastHour = hourDate.getHours();
+
         const hourlyItem = document.createElement('div');
         hourlyItem.className = 'hourly-item';
+
+        // If it's today, find the current hour and give it a special ID
+        if (isToday && forecastHour === currentHour) {
+            hourlyItem.id = 'current-hour-forecast';
+        }
+
         hourlyItem.innerHTML = `
             <div class="hourly-time">${hour}</div>
             <img src="https:${hourData.condition.icon}" alt="${hourData.condition.text}">
@@ -132,6 +141,17 @@ function openWeatherModal(dayIndex) {
 
     // Show the modal
     modalOverlay.classList.remove('hidden');
+
+    // --- THIS IS THE KEY CHANGE ---
+    // After showing the modal, scroll to the correct position.
+    const currentHourElement = document.getElementById('current-hour-forecast');
+    if (currentHourElement) {
+        // If it's today and the element exists, scroll to it smoothly.
+        currentHourElement.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    } else {
+        // For any other day, reset the scroll to the very beginning.
+        modalHourlyContainer.scrollLeft = 0;
+    }
 }
 
 /**
@@ -145,7 +165,7 @@ function closeWeatherModal() {
  * Main function to get and display all weather data.
  */
 export async function getWeather() {
-    const coords = await getCoordinates(); // This helper function is unchanged
+    const coords = await getCoordinates();
     const { latitude: lat, longitude: lon } = coords;
 
     const cacheKey = `weatherData_${lat.toFixed(2)}_${lon.toFixed(2)}`;
@@ -164,7 +184,6 @@ export async function getWeather() {
 
     console.log("Fetching new weather data from API.");
     try {
-        // THIS IS THE KEY CHANGE
         const proxyUrl = `http://${window.location.hostname}:${PROXY_PORT}/weather?lat=${lat}&lon=${lon}`;
         const response = await fetch(proxyUrl);
         if (!response.ok) throw new Error(`Server responded with ${response.status}`);
