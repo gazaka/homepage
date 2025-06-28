@@ -181,9 +181,16 @@ export function initSearch() {
     // Global Key Listener for "Type Anywhere"
     document.addEventListener('keydown', (e) => {
         const activeElement = document.activeElement;
-        const isTypingInInput = activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA';
-        const isModalOpen = !document.getElementById('add-link-modal-overlay').classList.contains('hidden') || 
-                            !document.getElementById('modal-overlay').classList.contains('hidden');
+        const isTypingInInput =
+            activeElement.tagName === 'INPUT' ||
+            activeElement.tagName === 'TEXTAREA';
+        const isModalOpen =
+            !document
+                .getElementById('add-link-modal-overlay')
+                .classList.contains('hidden') ||
+            !document
+                .getElementById('modal-overlay')
+                .classList.contains('hidden');
 
         if (isTypingInInput || isModalOpen) {
             return;

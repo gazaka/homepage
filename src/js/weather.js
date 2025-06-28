@@ -117,10 +117,10 @@ function openWeatherModal(dayIndex) {
     modalHourlyContainer.innerHTML = ''; // Clear previous hourly items
     dayData.hour.forEach((hourData) => {
         const hourDate = new Date(hourData.time_epoch * 1000);
-        const hour = hourDate.toLocaleTimeString(
-            navigator.language,
-            { hour: '2-digit', minute: '2-digit' }
-        );
+        const hour = hourDate.toLocaleTimeString(navigator.language, {
+            hour: '2-digit',
+            minute: '2-digit',
+        });
         const forecastHour = hourDate.getHours();
 
         const hourlyItem = document.createElement('div');
@@ -147,7 +147,11 @@ function openWeatherModal(dayIndex) {
     const currentHourElement = document.getElementById('current-hour-forecast');
     if (currentHourElement) {
         // If it's today and the element exists, scroll to it smoothly.
-        currentHourElement.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+        currentHourElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest',
+            inline: 'start',
+        });
     } else {
         // For any other day, reset the scroll to the very beginning.
         modalHourlyContainer.scrollLeft = 0;
@@ -174,28 +178,29 @@ export async function getWeather() {
     const cachedTimestamp = localStorage.getItem(timestampKey);
 
     if (cachedWeatherData && cachedTimestamp) {
-        if ((Date.now() - cachedTimestamp) < CACHE_DURATION_MS) {
-            console.log("Loading weather from cache.");
+        if (Date.now() - cachedTimestamp < CACHE_DURATION_MS) {
+            console.log('Loading weather from cache.');
             fullWeatherData = JSON.parse(cachedWeatherData);
             displayWeatherData(fullWeatherData);
             return;
         }
     }
 
-    console.log("Fetching new weather data from API.");
+    console.log('Fetching new weather data from API.');
     try {
         const proxyUrl = `http://${window.location.hostname}:${PROXY_PORT}/weather?lat=${lat}&lon=${lon}`;
         const response = await fetch(proxyUrl);
-        if (!response.ok) throw new Error(`Server responded with ${response.status}`);
+        if (!response.ok)
+            throw new Error(`Server responded with ${response.status}`);
         const data = await response.json();
 
         fullWeatherData = data;
         localStorage.setItem(cacheKey, JSON.stringify(data));
         localStorage.setItem(timestampKey, Date.now());
-        
+
         displayWeatherData(data);
     } catch (error) {
-        console.error("Failed to fetch weather:", error);
+        console.error('Failed to fetch weather:', error);
         weatherWidget.innerHTML = `<div class="widget-error">Weather unavailable</div>`;
         forecastWidget.innerHTML = `<div class="widget-error">Forecast unavailable</div>`;
     }
