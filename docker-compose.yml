@@ -3,7 +3,7 @@ services:
     build: .
     ports:
       # This is the main port for your application.
-      - "8080:80" 
+      - "2525:80" 
     volumes:
       - ./src:/usr/share/nginx/html
     # THIS IS THE NEW, IMPORTANT PART:
