@@ -47,7 +47,7 @@ This project features a clean, responsive UI, API-driven widgets, and a professi
     - **User-Facing Error Handling:** Widgets display a clear error message if an API call fails.
     - **Modular Codebase:** The entire frontend JavaScript is broken down into clean, single-purpose modules (`weather.js`, `search.js`, etc.) for maintainability.
 
-## 🛠️ Tech Stack & Tooling
+## Tech Stack & Tooling
 
 - **Frontend:** HTML5, CSS3, Modular JavaScript (ES6+)
 - **Backend (Proxy Server):** Node.js with Express.js and Axios
@@ -57,15 +57,15 @@ This project features a clean, responsive UI, API-driven widgets, and a professi
 - **Environment:** Docker & Docker Compose
 - **Web Server:** Nginx (configured as a reverse proxy for API calls)
 
-## 🚀 Getting Started
+## Getting Started
 
 To run this project locally, you will need [Git](https://git-scm.com/), [Docker Desktop](https://www.docker.com/products/docker-desktop/), and [Node.js](https://nodejs.org/) (for `npm`) installed.
 
 1.  **Clone the repository:**
 
     ```bash
-    git clone [https://github.com/gazaka/learning_homepage.git](https://github.com/gazaka/learning_homepage.git)
-    cd learning_homepage
+    git clone [https://github.com/gazaka/homepage.git](https://github.com/gazaka/homepage.git)
+    cd homepage
     ```
 
 2.  **Install Root Dependencies:**
@@ -90,9 +90,9 @@ To run this project locally, you will need [Git](https://git-scm.com/), [Docker 
     ```
 
 5.  **Open the Application:**
-    Navigate to `http://localhost:8080` in your web browser.
+    Navigate to `http://localhost:2525` in your web browser.
 
-## 💻 Development
+## Development
 
 This project is set up with professional code quality tools.
 
