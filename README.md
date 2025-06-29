@@ -1,8 +1,10 @@
 # My Personal Web Dashboard
 
-A personal, dynamic dashboard built from scratch to learn and apply core concepts of modern web development. This project features a clean, responsive UI, API-driven widgets, and a professional development environment orchestrated with Docker.
+A personal, dynamic dashboard built from scratch to learn and apply core concepts of modern web development using the assistance of an LLM. 
 
-![Dashboard Screenshot](https://github.com/gazaka/learning_homepage/blob/main/src/assets/images/dashboard-screeenshot.png) <!-- You can replace this with a real screenshot of your dashboard later! -->
+This project features a clean, responsive UI, API-driven widgets, and a professional development environment orchestrated with Docker.
+
+![Dashboard Screenshot](https://github.com/gazaka/learning_homepage/blob/main/src/assets/images/dashboard-screeenshot.png) 
 
 ## ✨ Core Features
 
