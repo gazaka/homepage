@@ -32,7 +32,7 @@ function applyTheme(themeName) {
 /**
  * Initializes the theme switcher functionality.
  */
-export function initTheme() {
+function initTheme() {
     // Add a single click listener to the parent container
     themeController.addEventListener('click', (event) => {
         // Check if a theme button was clicked

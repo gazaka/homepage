@@ -32,7 +32,7 @@ function toggleWidgetState(widget) {
     saveWidgetStates(states);
 }
 
-export function initWidgetManager() {
+function initWidgetManager() {
     applyInitialStates();
 
     document.querySelector('.container').addEventListener('click', (event) => {

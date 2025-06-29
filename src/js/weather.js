@@ -166,7 +166,7 @@ function closeWeatherModal() {
 /**
  * Main function to get and display all weather data.
  */
-export async function getWeather() {
+async function getWeather() {
     const coords = await getCoordinates();
     const { latitude: lat, longitude: lon } = coords;
 
@@ -186,7 +186,12 @@ export async function getWeather() {
 
     console.log('Fetching new weather data from API.');
     try {
-        const response = await fetch(`/api/weather?lat=${lat}&lon=${lon}`);
+        const apiBase = window.location.hostname === 'localhost' 
+            ? 'http://localhost:3000' 
+            : window.location.hostname === 'dashboard.yourdomain.com' 
+            ? 'http://proxy:3000'
+            : '';
+        const response = await fetch(`${apiBase}/api/weather?lat=${lat}&lon=${lon}`);
         if (!response.ok)
             throw new Error(`Server responded with ${response.status}`);
         const data = await response.json();

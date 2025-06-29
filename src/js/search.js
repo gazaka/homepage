@@ -40,8 +40,13 @@ async function getSuggestions() {
     }
 
     try {
+        const apiBase = window.location.hostname === 'localhost' 
+            ? 'http://localhost:3000' 
+            : window.location.hostname === 'dashboard.yourdomain.com' 
+            ? 'http://proxy:3000'
+            : '';
         const response = await fetch(
-            `/api/suggestions?q=${encodeURIComponent(query)}`
+            `${apiBase}/api/suggestions?q=${encodeURIComponent(query)}`
         );
         if (!response.ok) {
             // If we get a rate-limit error, we can just silently ignore it
@@ -169,7 +174,7 @@ function handleOutsideClick(event) {
 /**
  * Initializes all search-related event listeners.
  */
-export function initSearch() {
+function initSearch() {
     searchForm.addEventListener('submit', handleSearch);
 
     // Instead of calling getSuggestions directly, we use a debounced approach.

@@ -2,10 +2,10 @@ const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit'); // 1. Import the package
-require('dotenv').config();
+require('dotenv').config({ path: '../.env' });
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PROXY_PORT || 3000;
 
 // Use CORS middleware to allow requests from our frontend
 app.use(cors());
@@ -23,7 +23,7 @@ const apiLimiter = rateLimit({
 app.use('/', apiLimiter);
 
 // Suggestions endpoint
-app.get('/suggestions', async (req, res) => {
+app.get('/api/suggestions', async (req, res) => {
     const query = req.query.q;
     if (!query) {
         return res
@@ -40,7 +40,7 @@ app.get('/suggestions', async (req, res) => {
 });
 
 // Weather endpoint - UPDATED for a 5-day forecast
-app.get('/weather', async (req, res) => {
+app.get('/api/weather', async (req, res) => {
     const { lat, lon } = req.query;
     const apiKey = process.env.WEATHER_API_KEY;
 
@@ -61,6 +61,16 @@ app.get('/weather', async (req, res) => {
             error.response ? error.response.data : error.message
         );
         res.status(500).json({ error: 'Failed to fetch weather data' });
+    }
+});
+
+// Quotes endpoint
+app.get('/api/quotes/random', async (req, res) => {
+    try {
+        const response = await axios.get('https://dummyjson.com/quotes/random');
+        res.json(response.data);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch quote' });
     }
 });
 

@@ -1,20 +1,42 @@
-// Import the initialization functions and data handlers from our modules
-import { initTheme } from './theme.js';
-import { initWidgetManager } from './widgetManager.js';
-import { initClock } from './clock.js';
-import { getWeather } from './weather.js';
-import { initLinks } from './links.js';
-import { getQuote } from './quote.js';
-import { initSearch } from './search.js';
+/* eslint-disable */
+// Load all script files in order
+const scripts = [
+    'widgetManager.js',
+    'theme.js',
+    'clock.js',
+    'search.js',
+    'data.js',
+    'links.js',
+    'weather.js',
+    'quote.js'
+];
 
-// This is the main entry point for our application
-document.addEventListener('DOMContentLoaded', () => {
-    // Initialize all the different parts of our dashboard
-    initWidgetManager();
-    initTheme();
-    initClock();
-    initSearch();
-    initLinks();
-    getWeather();
-    getQuote();
+function loadScript(src) {
+    return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = 'js/' + src;
+        script.onload = resolve;
+        script.onerror = reject;
+        document.body.appendChild(script);
+    });
+}
+
+// Load all scripts sequentially
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        for (const script of scripts) {
+            await loadScript(script);
+        }
+        
+        // Initialize components after all scripts are loaded
+        if (typeof initWidgetManager === 'function') initWidgetManager();
+        if (typeof initTheme === 'function') initTheme();
+        if (typeof initClock === 'function') initClock();
+        if (typeof initSearch === 'function') initSearch();
+        if (typeof initLinks === 'function') initLinks();
+        if (typeof getWeather === 'function') getWeather();
+        if (typeof getQuote === 'function') getQuote();
+    } catch (error) {
+        console.error('Script loading failed:', error);
+    }
 });

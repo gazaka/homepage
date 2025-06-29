@@ -1,5 +1,3 @@
-import { myLinks as defaultLinks } from './data.js';
-
 // --- DOM ELEMENT SELECTION ---
 const linksGrid = document.querySelector('#links-widget .links-grid');
 const addLinkBtn = document.getElementById('add-link-btn');
@@ -22,7 +20,7 @@ let currentLinks = [];
 function getLinks() {
     const storedLinks = localStorage.getItem('userLinks');
     // If links are stored, use them. Otherwise, use the default links from data.js.
-    currentLinks = storedLinks ? JSON.parse(storedLinks) : defaultLinks;
+    currentLinks = storedLinks ? JSON.parse(storedLinks) : window.myLinks;
 }
 
 /**
@@ -122,7 +120,7 @@ function deleteLink(index) {
 
 // --- INITIALIZATION ---
 
-export function initLinks() {
+function initLinks() {
     // Modal open/close listeners
     addLinkBtn.addEventListener('click', () => {
         addLinkModalOverlay.classList.remove('hidden');

@@ -1,4 +1,4 @@
-export const myLinks = [
+window.myLinks = [
     {
         name: 'YouTube',
         url: 'https://youtube.com',

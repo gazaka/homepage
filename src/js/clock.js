@@ -17,7 +17,7 @@ function updateTimeAndDate() {
     dateElement.textContent = dateString;
 }
 
-export function initClock() {
+function initClock() {
     updateTimeAndDate();
     setInterval(updateTimeAndDate, 1000);
 }
