@@ -4,7 +4,7 @@ A personal, dynamic dashboard built from scratch to learn and apply core concept
 
 This project features a clean, responsive UI, API-driven widgets, and a professional development environment orchestrated with Docker.
 
-![Dashboard Screenshot](https://github.com/gazaka/learning_homepage/blob/main/src/assets/images/dashboard-screeenshot.png) 
+![Dashboard Screenshot](https://github.com/gazaka/homepage/blob/main/src/assets/images/dashboard-example.png) 
 
 ## ✨ Core Features
 
