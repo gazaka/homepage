@@ -64,7 +64,7 @@ To run this project locally, you will need [Git](https://git-scm.com/), [Docker 
 1.  **Clone the repository:**
 
     ```bash
-    git clone [https://github.com/gazaka/homepage.git](https://github.com/gazaka/homepage.git)
+    git clone https://github.com/gazaka/homepage.git
     cd homepage
     ```
 
